@@ -44,4 +44,22 @@ class TfIdfAlgorithmTest {
         keywords = extractor.extractKeywords(documents.get(2));
         assertThat(keywords.subList(0, 2), contains("string", "test"));
     }
+
+    @Test
+    void assignsHigherScoreToFrequentWordInDocument() {
+        var documents = List.of(
+            "a a a b",
+            "c");
+
+        DocumentCollection collection = new DocumentCollection();
+        documents.forEach(collection::add);
+
+        TfIdfAlgorithm extractor = new TfIdfAlgorithm(collection);
+
+        List<String> keywords = extractor.extractKeywords(documents.get(0));
+        assertThat(keywords.subList(0, 1), contains("a"));
+
+        keywords = extractor.extractKeywords(documents.get(1));
+        assertThat(keywords.subList(0, 1), containsInAnyOrder("c"));
+    }
 }

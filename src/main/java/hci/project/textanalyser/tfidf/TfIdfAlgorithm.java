@@ -59,6 +59,6 @@ public class TfIdfAlgorithm {
 
     private Map<String, Double> scores(Map<String, Double> frequencies) {
         return frequencies.entrySet().stream()
-            .collect(toMap(Entry::getKey, entry -> Math.log((double) collection.documents() / collection.documentsContaining(entry.getKey()))));
+            .collect(toMap(Entry::getKey, entry -> entry.getValue() * Math.log((double) collection.documents() / collection.documentsContaining(entry.getKey()))));
     }
 }
