@@ -1,26 +1,26 @@
 package hci.project.textanalyser.emotion;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class SentiWsEntry {
-
-    String pattern = "(\\w*|\\w*)\\s(\\d\\.\\d*)\\s(\\.*)";
 
     private final double value;
 
     private final List<String> matches;
 
     public SentiWsEntry(String sentiWsEntryString) {
-        System.out.println(sentiWsEntryString);
-
-        String[] parsedEntry = sentiWsEntryString.split(pattern);
-        System.out.println(Arrays.toString(parsedEntry));
+        String[] parsedEntry = sentiWsEntryString.split("\t");
 
         value = Double.valueOf(parsedEntry[1]);
 
-        matches = Arrays.asList(parsedEntry[2].split(","));
-        matches.add(parsedEntry[0].split("|")[0]);
+        String firstMatch = parsedEntry[0].split("\\|")[0];
+        ArrayList<String> matches = new ArrayList<>();
+        matches.addAll(Arrays.asList(parsedEntry[2].split(",")));
+        matches.add(firstMatch);
+
+        this.matches = matches;
     }
 
     public boolean matches(String word) {
