@@ -12,8 +12,8 @@ import java.util.Properties;
 
 public class SentimentAnalyzer {
 
-    // "Very negative" = 0 "Negative" = 1 "Neutral" = 2 "Positive" = 3 "Very positive" = 4
-    public Integer findSentiment(String line) {
+
+    public Sentiment findSentiment(String line) {
         Properties props = new Properties();
         props.setProperty("annotators", "tokenize, ssplit, parse, sentiment");
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
@@ -35,6 +35,6 @@ public class SentimentAnalyzer {
             }
         }
 
-        return mainSentiment;
+        return Sentiment.byValue(mainSentiment);
     }
 }

@@ -20,11 +20,11 @@ public class SentimentAnalyzerTest {
 
         String englishSentence = "This is a neutral sentence";
         String germanSentence = "Das ist ein neutraler Satz";
-        Integer englishSentiment = sentimentAnalyzer.findSentiment(englishSentence);
+        Sentiment englishSentiment = sentimentAnalyzer.findSentiment(englishSentence);
 
-        Integer germanSentiment = sentimentAnalyzer.findSentiment(germanSentence);
+        Sentiment germanSentiment = sentimentAnalyzer.findSentiment(germanSentence);
 
-        assertEquals(2, englishSentiment);
-        assertEquals(2, germanSentiment);
+        assertEquals(Sentiment.NEUTRAL, englishSentiment);
+        assertEquals(Sentiment.NEUTRAL, germanSentiment);
     }
 }

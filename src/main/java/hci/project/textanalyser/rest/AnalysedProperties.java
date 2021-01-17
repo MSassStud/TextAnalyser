@@ -1,14 +1,16 @@
 package hci.project.textanalyser.rest;
 
+import hci.project.textanalyser.sentiment.Sentiment;
+
 public class AnalysedProperties {
 
-    private Integer sentiment = null;
+    private Sentiment sentiment = null;
 
-    public void setSentiment(Integer sentiment) {
+    public void setSentiment(Sentiment sentiment) {
         this.sentiment = sentiment;
     }
 
-    public Integer getSentiment() {
+    public Sentiment getSentiment() {
         return this.sentiment;
     }
 }
