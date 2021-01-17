@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EmotionAlgorithmTest {
 
-    private static String FEAR = "";
-    private static String ANGER = "";
+    private static String TEST_INPUT = "Ich habe heute Chinesisch gegessen.";
 
     private EmotionAlgorithm emotionAlgorithm;
 
@@ -21,17 +20,10 @@ public class EmotionAlgorithmTest {
     }
 
     @Test
-    public void getTopEmotions_Fear() throws IOException {
-        List<String> topEmotions = emotionAlgorithm.getTopEmotions(FEAR);
-        assertEquals(1, topEmotions.size());
-        assertEquals(Emotion.FEAR.name(), topEmotions.get(0));
-    }
+    public void sentiwsAnalyse() throws IOException {
+        Double result = emotionAlgorithm.sentiwsAnalyse(TEST_INPUT);
 
-    @Test
-    public void getTopEmotions_Anger() throws IOException {
-        List<String> topEmotions = emotionAlgorithm.getTopEmotions(ANGER);
-        assertEquals(1, topEmotions.size());
-        assertEquals(Emotion.ANGER.name(), topEmotions.get(0));
+        assertEquals(Double.valueOf("0.01"), result);
     }
 
 }

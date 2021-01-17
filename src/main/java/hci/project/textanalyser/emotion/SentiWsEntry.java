@@ -23,11 +23,16 @@ public class SentiWsEntry {
         this.matches = matches;
     }
 
-    public boolean matches(String word) {
+    public boolean contains(String word) {
         return matches.contains(word);
     }
 
     public double getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
