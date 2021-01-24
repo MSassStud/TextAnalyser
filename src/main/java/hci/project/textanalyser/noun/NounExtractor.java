@@ -1,13 +1,13 @@
 package hci.project.textanalyser.noun;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import edu.stanford.nlp.coref.data.CorefChain.CorefMention;
 import edu.stanford.nlp.ling.CoreLabel;
@@ -17,111 +17,157 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
 public class NounExtractor {
 
-    public static Map<Integer, List<String>> extractNouns(String text) {
+    private final StanfordCoreNLP pipeline;
+    
+    public static NounExtractor forCasedSentences() {
         Properties props = new Properties();
         props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner,parse,coref");
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+        return new NounExtractor(pipeline);
+    }
+    
+    private NounExtractor(StanfordCoreNLP pipeline) {
+        this.pipeline = new StanfordCoreNLP();
+    }
+    
+    public List<Noun> extract(String text) {
         CoreDocument document = new CoreDocument(text);
         pipeline.annotate(document);
         
-        List<CoreSentence> sentences = document.sentences();
-        Map<Integer, List<Noun>> sentenceNouns = extractNouns(sentences);
-        
-        extractReferencedNouns(document, sentences, sentenceNouns);
-        
-        return nouns(sentences, sentenceNouns);
+        return extractNouns(document);
     }
-
-    private static Map<Integer, List<String>> nouns(List<CoreSentence> sentences, Map<Integer, List<Noun>> sentenceNouns) {
-        Map<Integer, List<String>> nouns = new HashMap<>();
-        for (int s = 0; s < sentences.size(); s++) {
-            List<Noun> list = sentenceNouns.get(s + 1);
-            list.sort(Comparator.comparing(Noun::getStart).thenComparing(Noun::getEnd));
-            
-            List<String> collect = list.stream().map(Noun::getText).collect(Collectors.toList());
-            combineRepetitions(collect);
-            nouns.put(s + 1, collect);
+    
+    private List<Noun> extractNouns(CoreDocument document) {
+        List<CoreLabel> simpleNouns = extractSimpleNouns(document);
+        List<MentionedNoun> referencedNouns = extractReferencedNouns(document);
+        
+        return combine(
+            mapSimpleNouns(simpleNouns),
+            mapReferencedNouns(referencedNouns));
+    }
+    
+    private List<CoreLabel> extractSimpleNouns(CoreDocument document) {
+        return document.tokens().stream()
+            .filter(token -> isNoun(token))
+            .collect(toList());
+    }
+    
+    private List<Noun> mapSimpleNouns(List<CoreLabel> nounTokens) {
+        List<Noun> nouns = new ArrayList<>();
+        for (int i = 0; i < nounTokens.size(); i++) {
+            CoreLabel token = nounTokens.get(i);
+            if (isLabeledPerson(token)) {
+                int end = findPersonRangeEnd(nounTokens, i);
+                nouns.add(createPersonName(nounTokens, i, end));
+                i = end;
+            } else {
+                Noun noun = createSimpleNoun(token);
+                nouns.add(noun);
+            }
         }
         return nouns;
     }
 
-    private static void extractReferencedNouns(CoreDocument document, List<CoreSentence> sentences,
-            Map<Integer, List<Noun>> sentenceNouns) {
+    private Noun createSimpleNoun(CoreLabel token) {
+        Noun.Location location = new Noun.Location(token.sentIndex(), token.index() - 1, token.index() - 1);
+        return new Noun(location, List.of(token.word()), false);
+    }
+
+    private Noun createPersonName(List<CoreLabel> nounTokens, int startIndex, int endIndex) {
+        CoreLabel start = nounTokens.get(startIndex);
+        CoreLabel end = nounTokens.get(endIndex);
+        
+        Noun.Location location = new Noun.Location(start.sentIndex(), start.index() - 1, end.index() - 1);
+        List<String> words = IntStream.rangeClosed(startIndex, endIndex)
+            .mapToObj(nounTokens::get)
+            .map(CoreLabel::word)
+            .collect(toList());
+        return new Noun(location, words, true);
+    }
+    
+    private int findPersonRangeEnd(List<CoreLabel> tokens, int startIndex) {
+        int end = startIndex;
+        for (int j = startIndex; j < tokens.size() && tokens.get(j).sentIndex() == tokens.get(startIndex).sentIndex() && isLabeledPerson(tokens.get(j)); j++) {
+            end = j;
+        }
+        return end;
+    }
+    
+    private boolean isLabeledPerson(CoreLabel token) {
+        return "PERSON".equals(token.ner());
+    }
+    
+    private List<MentionedNoun> extractReferencedNouns(CoreDocument document) {
+        List<MentionedNoun> mentionedNouns = new ArrayList<>();
         for (var chain : document.corefChains().values()) {
-            List<CorefMention> mentionsInTextualOrder = chain.getMentionsInTextualOrder();
-            for (CorefMention mention : mentionsInTextualOrder) {
-                List<String> words = new ArrayList<>();
-                CorefMention representativeMention = chain.getRepresentativeMention();
-                for (int i = representativeMention.startIndex - 1; i < representativeMention.endIndex - 1; i++) {
-                    CoreLabel coreLabel = sentences.get(representativeMention.sentNum - 1).tokens().get(i);
-                    if (hasNounTag(coreLabel)) {
-                        words.add(coreLabel.word());
-                    }
-                }
-                
-                List<Noun> indirectNouns = new ArrayList<>();
-                indirectNouns.add(new Noun(mention.startIndex, mention.endIndex-1, String.join(" ", words)));
-                sentenceNouns.get(mention.sentNum).addAll(indirectNouns);
-            }
-        }
-    }
-
-    private static Map<Integer, List<Noun>> extractNouns(List<CoreSentence> sentences) {
-        Map<Integer, List<Noun>> sentenceNouns = new HashMap<>();
-        for (int s = 0; s < sentences.size(); s++) {
-            var sentence = sentences.get(s);
-            List<Noun> nouns = new ArrayList<>();
-            for (var token : sentence.tokens()) {
-                if (hasNounTag(token)) {
-                    nouns.add(new Noun(token.index(), token.index(), token.word()));
+            for (var mention : chain.getMentionsInTextualOrder()) {
+                CorefMention representative = chain.getRepresentativeMention();
+                List<CoreLabel> tokens = representativeNouns(document, representative);
+                if (!tokens.isEmpty()) {
+                    MentionedNoun mentionedNoun = new MentionedNoun();
+                    mentionedNoun.mention = mention;
+                    mentionedNoun.nouns = tokens;
+                    mentionedNouns.add(mentionedNoun);
                 }
             }
-            sentenceNouns.put(s+1, nouns);
         }
-        return sentenceNouns;
+        
+        return mentionedNouns;
     }
-
-    private static void combineRepetitions(List<String> collect) {
-        int i = 1;
-        while (i < collect.size()) {
-            if (collect.get(i - 1).equals(collect.get(i))) {
-                collect.remove(i);
+    
+    private List<CoreLabel> representativeNouns(CoreDocument document, CorefMention mention) {
+        CoreSentence sentence = document.sentences().get(mention.sentNum - 1);
+        
+        return IntStream.rangeClosed(mention.startIndex - 1, mention.endIndex -1)
+            .mapToObj(i -> sentence.tokens().get(i))
+            .filter(token -> isNoun(token))
+            .collect(toList());
+    }
+    
+    private boolean isNoun(CoreLabel token) {
+        return Set.of("NN", "NNP", "NNS", "NNPS").contains(token.tag());
+    }
+    
+    private List<Noun> mapReferencedNouns(List<MentionedNoun> mentions) {
+        return mentions.stream()
+            .map(m -> {
+                Noun.Location location = new Noun.Location(m.mention.sentNum - 1, m.mention.startIndex - 1, m.mention.endIndex - 2);
+                List<String> words = m.nouns.stream().map(CoreLabel::word).collect(toList());
+                boolean person = m.nouns.stream().anyMatch(n -> "PERSON".equals(n.ner()));
+                return new Noun(location, words, person);
+            })
+            .collect(toList());
+    }
+    
+    private List<Noun> combine(List<Noun> a, List<Noun> b) {
+        ArrayList<Noun> combined = new ArrayList<>();
+        combined.addAll(a);
+        combined.addAll(b);
+        
+        Comparator<Noun> textOrder = Comparator.comparing((Noun n) -> n.location().sentence())
+            .thenComparing((Noun n) -> n.location().startToken())
+            .thenComparing((Noun n) -> n.location().endToken());
+        
+        combined.sort(textOrder);
+        
+        int i = 0;
+        while (i < combined.size() - 1) {
+            Noun left = combined.get(i);
+            Noun right = combined.get(i + 1);
+            if (left.contains(right)) {
+                combined.remove(i + 1);
+            } else if (right.contains(left)) {
+                combined.remove(i);
             } else {
                 i++;
             }
         }
-    }
-
-    private static boolean hasNounTag(CoreLabel token) {
-        return Set.of("NN", "NNP", "NNS", "NNPS").contains(token.tag());
+        
+        return combined;
     }
     
-    public static class Noun {
-        private final int start; // word index, starts at 1
-        private final int end; // word index, starts at 1
-        private final String text;
-
-        public Noun(int start, int end, String text) {
-            this.start = start;
-            this.end = end;
-            this.text = text;
-        }
-
-        public String getText() {
-            return text;
-        }
-        
-        public int getStart() {
-            return start;
-        }
-
-        public int getEnd() {
-            return end;
-        }
-        
-        @Override
-        public String toString() {
-            return getStart() + "-" + getEnd() + ":" + text;
-        }
+    private static class MentionedNoun {
+        CorefMention mention;
+        List<CoreLabel> nouns;
     }
 }
