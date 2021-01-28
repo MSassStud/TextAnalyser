@@ -4,6 +4,8 @@ import static java.util.stream.Collectors.joining;
 
 import java.util.List;
 
+import hci.project.textanalyser.sentiment.Sentiment;
+import hci.project.textanalyser.sentiment.SentimentAnalyzer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,19 +23,26 @@ public class Controller {
     public Controller(Multimap<String, String> index) {
         this.index = index;
     }
-    
+
     @GetMapping
-    public String hello() {
-        return "Hello World!";
+    public AnalysedProperties textToEmojis(String text) {
+
+        AnalysedProperties result =  new AnalysedProperties();
+        result.setSentiment(analyseText(text));
+        result.setEmojis(getEmojis(text));
+
+        return result;
     }
-    
-    @GetMapping(path = "/emojis")
-    public String textToEmojis(String text) {
+
+    private Sentiment analyseText(String text) {
+        SentimentAnalyzer sentimentAnalyzer = new SentimentAnalyzer();
+        return sentimentAnalyzer.findSentiment(text);
+    }
+
+    private List<String> getEmojis(String text) {
         NounExtractor nounExtractor = NounExtractor.forCasedSentences();
         List<Noun> nouns = nounExtractor.extract(text);
         EmojiMapper emojiMapper = new EmojiMapper(index);
-        List<String> emojis = emojiMapper.emojis(nouns);
-        
-        return emojis.stream().collect(joining(" "));
+        return emojiMapper.emojis(nouns);
     }
 }
