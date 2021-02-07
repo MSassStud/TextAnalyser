@@ -4,6 +4,10 @@ import static java.util.stream.Collectors.joining;
 
 import java.util.List;
 
+import at.mukprojects.giphy4j.Giphy;
+import at.mukprojects.giphy4j.entity.search.SearchFeed;
+import at.mukprojects.giphy4j.exception.GiphyException;
+import hci.project.textanalyser.noun.NounToGif;
 import hci.project.textanalyser.sentiment.Sentiment;
 import hci.project.textanalyser.sentiment.SentimentAnalyzer;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +34,7 @@ public class Controller {
         AnalysedProperties result =  new AnalysedProperties();
         result.setSentiment(analyseText(text));
         result.setEmojis(getEmojis(text));
+        result.setGifUrl(getGif(text));
 
         return result;
     }
@@ -45,4 +50,13 @@ public class Controller {
         EmojiMapper emojiMapper = new EmojiMapper(index);
         return emojiMapper.emojis(nouns);
     }
+
+    private String getGif(String text) {
+        NounExtractor nounExtractor = NounExtractor.forCasedSentences();
+        List<Noun> nouns = nounExtractor.extract(text);
+        NounToGif nTg = new NounToGif();
+        return nTg.getGif(nouns);
+    }
+
+
 }

@@ -10,6 +10,8 @@ public class AnalysedProperties {
 
     private List<String> emojis = null;
 
+    private String gifUrl = null;
+
     public void setSentiment(Sentiment sentiment) {
         this.sentiment = sentiment;
     }
@@ -25,4 +27,8 @@ public class AnalysedProperties {
     public void setEmojis(List<String> emojis) {
         this.emojis = emojis;
     }
+
+    public String getGifUrl() { return gifUrl; }
+
+    public void setGifUrl(String gifUrl) { this.gifUrl = gifUrl; }
 }
