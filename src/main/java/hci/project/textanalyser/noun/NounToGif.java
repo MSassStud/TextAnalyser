@@ -1,19 +1,23 @@
 package hci.project.textanalyser.noun;
 
-import at.mukprojects.giphy4j.Giphy;
-import at.mukprojects.giphy4j.entity.search.SearchGiphy;
-import at.mukprojects.giphy4j.exception.GiphyException;
-
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class NounToGif {
-    private static final String API_KEY = "57X4b5DJFDgFCPvXdjEiM59BpwVlOH8Z";
+import at.mukprojects.giphy4j.Giphy;
+import at.mukprojects.giphy4j.entity.search.SearchGiphy;
+import at.mukprojects.giphy4j.exception.GiphyException;
 
-    public String getGif(List<Noun> nouns) {
+public class NounToGif implements ImageApi<List<Noun>> {
+    private static final String API_KEY = "57X4b5DJFDgFCPvXdjEiM59BpwVlOH8Z";
+    
+    @Override
+    public String findBy(List<Noun> nouns) {
+        return getGif(nouns);
+    }
+    
+    private String getGif(List<Noun> nouns) {
 
         Giphy giphy = new Giphy(API_KEY);
 

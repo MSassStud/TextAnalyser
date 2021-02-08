@@ -1,4 +1,4 @@
-package hci.project.textanalyser.tfidf;
+package hci.project.textanalyser.statistical;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -7,6 +7,9 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
+import hci.project.textanalyser.statistical.DocumentCollection;
+import hci.project.textanalyser.statistical.TfIdfAlgorithm;
 
 class TfIdfAlgorithmTest {
 

@@ -1,4 +1,4 @@
-package hci.project.textanalyser.tfidf;
+package hci.project.textanalyser.statistical;
 
 import java.util.HashMap;
 import java.util.Map;

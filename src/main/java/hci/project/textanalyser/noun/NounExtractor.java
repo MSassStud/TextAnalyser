@@ -19,6 +19,13 @@ public class NounExtractor {
 
     private final StanfordCoreNLP pipeline;
     
+    public static NounExtractor forCaselessSentences() {
+        Properties props = new Properties();
+        props.setProperty("annotators", "tokenize,ssplit,truecase,pos,lemma,ner,parse,coref");
+        StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+        return new NounExtractor(pipeline);
+    }
+    
     public static NounExtractor forCasedSentences() {
         Properties props = new Properties();
         props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner,parse,coref");

@@ -1,4 +1,4 @@
-package hci.project.textanalyser.tfidf;
+package hci.project.textanalyser.statistical;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
