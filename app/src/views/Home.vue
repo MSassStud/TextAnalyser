@@ -1,17 +1,32 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
-      <ion-label>Your name</ion-label>
-      <ion-input v-model="ownName"></ion-input>
-      <ion-label>Partner's name</ion-label>
-      <ion-input v-model="partnersName"></ion-input>
-      <ion-button expand="full" :disabled="anyNameEmpty" @click="startConversation">Start conversation</ion-button>
+      <ion-grid style="margin-top: 50%">
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked" class="upper">Your name</ion-label>
+              <ion-input v-model="ownName"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked" class="upper">Partner's name</ion-label>
+              <ion-input v-model="partnersName"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12">
+            <ion-button expand="block" :disabled="anyNameEmpty" @click="startConversation">Start conversation</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
     </ion-content>
   </ion-page>
 </template>
 
 <script>
-import { IonContent, IonPage, IonInput, IonLabel, IonButton } from "@ionic/vue";
+import { IonContent, IonPage, IonInput, IonLabel, IonButton, IonGrid, IonRow, IonCol,
+IonItem
+} from "@ionic/vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -22,6 +37,10 @@ export default defineComponent({
     IonInput,
     IonLabel,
     IonButton,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonItem
   },
   data() {
     return {
@@ -49,6 +68,16 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.upper {
+  text-transform: uppercase;
+}
+
+#wrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 #container {
   text-align: center;
 

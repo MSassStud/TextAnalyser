@@ -4,6 +4,7 @@ import Contacts from '../views/Contacts.vue'
 import Conversation from '../views/Conversation.vue'
 import Record from '../views/Record.vue'
 import Preview from '../views/Preview.vue'
+import RecordSpeech from '../views/RecordSpeech.vue'
 
 const routes = [
   {
@@ -29,6 +30,11 @@ const routes = [
     path: '/record',
     name: 'Record',
     component: Record
+  },
+  {
+    path: '/recordSpeech',
+    name: 'RecordSpeech',
+    component: RecordSpeech
   },
   {
     path: '/preview',

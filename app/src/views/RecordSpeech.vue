@@ -8,7 +8,7 @@
 
     <ion-content>
       <ion-grid>
-        <ion-row class="ion-justify-content-center">
+        <ion-row class="ion-align-items-center ion-justify-content-center">
           <ion-col style="text-align: center">
             <ion-chip color="danger">
               <ion-icon name="mic-outline" style="font-size: 2em"></ion-icon>
@@ -16,18 +16,10 @@
             </ion-chip>
           </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-label position="stacked" class="upper">Your message</ion-label>
-              <ion-textarea v-if="recording" v-model="message" auto-grow="true"></ion-textarea>
-            </ion-item>
-          </ion-col>
-        </ion-row>
       </ion-grid>
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-        <ion-fab-button @click="previewTextRecording">
+        <ion-fab-button @click="stopRecording">
           <ion-icon name="stop"></ion-icon>
         </ion-fab-button>
       </ion-fab>
@@ -43,7 +35,6 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonTextarea,
   IonIcon,
   IonFab,
   IonFabButton,
@@ -65,7 +56,6 @@ export default defineComponent({
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonTextarea,
     IonIcon,
     IonFab,
     IonFabButton,
@@ -108,10 +98,6 @@ export default defineComponent({
 
           this.mediaRecorder.addEventListener("stop", () => {
             const blob = new Blob(this.audioChunks);
-            const url = URL.createObjectURL(blob);
-            const audio = new Audio(url);
-            audio.play();
-            console.log("playing");
 
             const reader = new FileReader();
             reader.readAsDataURL(blob);
@@ -125,18 +111,24 @@ export default defineComponent({
                   'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ recording: base64Audio })
-              });
+              })
+                .then(response => response.json())
+                .then(data => this.message = data.message)
+                .then(() => this.previewRecording());
             };
           });
         });
     },
-    previewRecording() {
+    stopRecording() {
       this.mediaRecorder.stop();
-
+    },
+    previewRecording() {
       this.$store.commit('setMessage', this.message);
 
       this.recording = false;
       this.message = '';
+
+      this.$router.push('/preview');
     },
     previewTextRecording() {
       this.$store.commit('setMessage', this.message);
@@ -144,6 +136,9 @@ export default defineComponent({
       
       this.$router.push('/preview');
     }
+  },
+  ionViewDidEnter() {
+    this.recordSpeech();
   }
 });
 </script>

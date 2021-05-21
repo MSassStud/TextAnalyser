@@ -7,23 +7,21 @@
     </ion-header>
 
     <ion-content :fullscreen="true" class="ion-padding">
-      <div>Imagine preview here.</div>
-      <div>{{ message }}</div>
-      <ion-spinner id="spinner"></ion-spinner>
+      <p>Imagine preview here...</p>
+      <p>{{ message }}</p>
+
+      <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+        <ion-fab-button @click="send" color="success">
+          <ion-icon name="checkmark-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button router-link="/conversation" color="danger">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
     </ion-content>
 
-    <ion-footer>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="6">
-            <ion-button color="success" expand="block" router-link="/conversation">Send</ion-button>
-          </ion-col>
-          <ion-col size="6">
-            <ion-button color="danger" expand="block" router-link="/conversation">Discard</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-footer>
   </ion-page>
 </template>
 
@@ -34,14 +32,13 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonFooter,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonButton,
-  IonSpinner
+  IonFab,
+  IonFabButton
 } from "@ionic/vue";
 import { defineComponent } from "vue";
+import { addIcons } from 'ionicons';
+import { checkmarkOutline, closeOutline } from 'ionicons/icons';
+addIcons({ 'checkmark-outline': checkmarkOutline, 'close-outline': closeOutline });
 
 export default defineComponent({
   name: "Preview",
@@ -51,12 +48,8 @@ export default defineComponent({
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonFooter,
-    IonGrid,
-    IonRow,
-    IonCol,
-    IonButton,
-    IonSpinner
+    IonFab,
+    IonFabButton
   },
   data() {
     return {
@@ -64,6 +57,9 @@ export default defineComponent({
     };
   },
   computed: {
+    ownName() {
+      return this.$store.state.ownName;
+    },
     partnersName() {
       return this.$store.state.partnersName;
     },
@@ -75,6 +71,20 @@ export default defineComponent({
     record() {
       this.recording = true;
     },
+    send() {
+      fetch('http://localhost:8080/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: this.ownName,
+          to: this.partnersName,
+          message: this.message
+        })
+      }).then(response => this.$router.push('/conversation'))
+      .catch(error => console.error('fetch error', error));
+    }
   },
 });
 </script>
