@@ -1,0 +1,16 @@
+{
+  "appId": "io.ionic.starter",
+  "appName": "voiceChatApp",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "android": {
+    "allowMixedContent": true
+  },
+  "cordova": {}
+}
