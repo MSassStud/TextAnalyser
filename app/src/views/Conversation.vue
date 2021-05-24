@@ -11,6 +11,9 @@
       <ion-list>
         <ion-item v-for="message in messages" :key="message.id">
           <ion-icon :name="messageIcon(message)" slot="start"></ion-icon>
+          <ion-thumbnail slot="start">
+          <iframe :src="message.analysedProperties.gifUrl" :height="60" :width="60"></iframe>
+          </ion-thumbnail>
           <ion-label>{{ message.content }}</ion-label>
         </ion-item>
       </ion-list>

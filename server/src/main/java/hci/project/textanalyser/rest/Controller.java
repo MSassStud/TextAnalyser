@@ -85,13 +85,15 @@ public class Controller {
         private final String from;
         private final String to;
         private final String content;
+        private final AnalysedProperties analysedProperties;
 
-        public Message(String id, LocalDateTime createTime, String from, String to, String content) {
+        public Message(String id, LocalDateTime createTime, String from, String to, String content, AnalysedProperties analysedProperties) {
             this.id = id;
             this.createTime = createTime;
             this.from = from;
             this.to = to;
             this.content = content;
+            this.analysedProperties = analysedProperties;
         }
         
         public String getId() {
@@ -113,6 +115,8 @@ public class Controller {
         public String getContent() {
             return content;
         }
+
+        public AnalysedProperties getAnalysedProperties() { return analysedProperties; }
     }
 
     public Controller(Multimap<String, String> index, ImageApi<List<Noun>> imageApi) {
@@ -140,7 +144,7 @@ public class Controller {
         String from = body.get("from");
         String to = body.get("to");
         var conversation = new Conversation(from, to);
-        var message = new Message(UUID.randomUUID().toString(), LocalDateTime.now(), from, to, body.get("message"));
+        var message = new Message(UUID.randomUUID().toString(), LocalDateTime.now(), from, to, body.get("message"), this.textToEmojis(body.get("message")));
         List<Message> messages = conversations.computeIfAbsent(conversation, key -> new LinkedList<Message>());
         messages.add(message);
         return ResponseEntity.ok().build();
