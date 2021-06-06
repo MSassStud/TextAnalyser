@@ -61,10 +61,6 @@ export default defineComponent({
       this.selection = emoji;
       this.action = { name: 'select', selection: emoji };
 
-      // const prev = this.$store.state.selectedEmoji;
-      // this.$store.commit('setSelectedEmoji', { id: prev.id, emoji: emoji, time: prev.time });
-
-      // this.$emit('selectedEmoji', { emoji });
       this.closeModal();
     },
     deleteEmoji() {

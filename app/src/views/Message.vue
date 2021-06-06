@@ -12,31 +12,13 @@
     </ion-header>
 
     <ion-content :fullscreen="true" class="ion-padding">
-      <!-- <ion-loading :is-open="loading" message="Loading preview..."></ion-loading> -->
-      <!-- <ion-modal :is-open="selection" @didDismiss="closeEmojiSelection">
-        <emoji-selection></emoji-selection>
-      </ion-modal> -->
       <ion-grid style="height: 100%">
         <ion-row style="height: 100%" class="ion-align-items-center ion-align-items-stretch">
           <ion-col style="text-align: center; line-height: 0; font-size: 10em" class="ion-align-self-center">
-            <!-- <div style="text-align: center; font-size: 10em"> -->
               <span v-if="emoji != null">{{ emoji.emoji }}</span>
-              <!-- <span v-if="emoji == null" @click="openModal(null)"><ion-icon name="scan-outline"></ion-icon></span> -->
-            <!-- </div> -->
           </ion-col>
         </ion-row>
       </ion-grid>
-
-      <!-- <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-        <ion-fab-button @click="send" color="success">
-          <ion-icon name="checkmark-outline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-        <ion-fab-button router-link="/conversation" color="danger">
-          <ion-icon name="close-outline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab> -->
     </ion-content>
 
     <ion-footer>

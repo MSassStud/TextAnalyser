@@ -8,9 +8,6 @@
 
     <ion-content :fullscreen="true" class="ion-padding" @selectedEmoji="selectedEmoji">
       <ion-loading :is-open="loading" message="Loading preview..."></ion-loading>
-      <!-- <ion-modal :is-open="selection" @didDismiss="closeEmojiSelection">
-        <emoji-selection></emoji-selection>
-      </ion-modal> -->
 
       <ion-grid style="height: 100%">
         <ion-row style="height: 100%" class="ion-align-items-center ion-align-items-stretch">
@@ -20,11 +17,6 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-
-      <!-- <div style="text-align: center; font-size: 2.5em; height: 3em">
-        <span v-if="emoji != null" @click="openModal(emoji)">{{ emoji.emoji }}</span>
-        <span v-if="emoji == null" @click="openModal(null)"><ion-icon name="scan-outline"></ion-icon></span>
-      </div> -->
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="center">
         <ion-fab-button @click="send" color="success">
@@ -69,11 +61,8 @@ import {
   IonRange,
   IonIcon,
   IonButtons,
-  // IonModal,
   modalController,
-  // IonButtons,
-  IonButton,
-  // IonItem
+  IonButton
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
@@ -103,21 +92,11 @@ export default defineComponent({
     IonRange,
     IonIcon,
     IonButtons,
-    // IonModal,
-    // IonButtons,
     IonButton,
-    // EmojiSelection
-    // IonItem
   },
   data() {
     return {
-      // recording: false,
-      emojis: [
-          // {emoji: '🙂', time: 0.1},
-          // {emoji: '😕', time: 0.2},
-          // {emoji: '🙁', time: 0.5},
-          // {emoji: '☹️', time: 0.7},
-        ],
+      emojis: [],
       loading: true,
       position: 0,
       emoji: null,
@@ -193,9 +172,6 @@ export default defineComponent({
       });
       return modal.present();
     },
-    // record() {
-    //   this.recording = true;
-    // },
     send() {
       fetch('http://localhost:8080/messages', {
         method: 'POST',
@@ -223,14 +199,6 @@ export default defineComponent({
       const displayTime = 3.0 / this.messageDuration;
 
       const emoji = this.emojis
-        // .map(item => ({
-        //   emoji: item.emoji,
-        //   distance: Math.abs(normalizedPos - item.time)
-        // }))
-        // .filter(emoji => emoji.distance < 0.1)
-        // .sort((a, b) => b.distance - a.distance)
-
-        // .filter(item => item.time <= normalizedPos && item.time + 0.1 >= normalizedPos)
         .filter(item => item.time <= normalizedPos && item.time + displayTime >= normalizedPos)
         .sort((a, b) => a.time - b.time)
         .pop();
@@ -269,8 +237,6 @@ export default defineComponent({
     }
   },
   ionViewDidEnter() {
-    // this.loading = false;
-
     fetch('http://localhost:8080/preview', {
       method: 'POST',
       headers: {
