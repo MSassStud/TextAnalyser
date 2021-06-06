@@ -49,7 +49,8 @@ import {
   IonIcon,
   IonFab,
   IonFabButton,
-  IonFabList
+  IonFabList,
+  IonThumbnail
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
@@ -70,7 +71,8 @@ export default defineComponent({
     IonIcon,
     IonFab,
     IonFabButton,
-    IonFabList
+    IonFabList,
+    IonThumbnail
   },
   data() {
     return {

@@ -50,7 +50,10 @@ import {
   IonChip,
   IonGrid,
   IonRow,
-  IonCol
+  IonCol,
+  IonSpinner,
+  IonItem,
+  IonLabel
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
@@ -72,7 +75,10 @@ export default defineComponent({
     IonChip,
     IonGrid,
     IonRow,
-    IonCol
+    IonCol,
+    IonSpinner,
+    IonItem,
+    IonLabel
   },
   data() {
     return {
@@ -91,53 +97,53 @@ export default defineComponent({
     recordText() {
       this.recording = true;
     },
-    recordSpeech() {
-      this.recording = true;
+    // recordSpeech() {
+    //   this.recording = true;
 
-      navigator.mediaDevices.getUserMedia({audio: true, video: false})
-        .then(stream => {
-          this.mediaRecorder = new MediaRecorder(stream);
-          this.mediaRecorder.start();
+    //   navigator.mediaDevices.getUserMedia({audio: true, video: false})
+    //     .then(stream => {
+    //       this.mediaRecorder = new MediaRecorder(stream);
+    //       this.mediaRecorder.start();
 
-          this.audioChunks = [];
-          console.log(this.mediaRecorder);
+    //       this.audioChunks = [];
+    //       console.log(this.mediaRecorder);
 
-          this.mediaRecorder.addEventListener("dataavailable", event => {
-            this.audioChunks.push(event.data);
-          });
+    //       this.mediaRecorder.addEventListener("dataavailable", event => {
+    //         this.audioChunks.push(event.data);
+    //       });
 
-          this.mediaRecorder.addEventListener("stop", () => {
-            const blob = new Blob(this.audioChunks);
-            const url = URL.createObjectURL(blob);
-            const audio = new Audio(url);
-            audio.play();
-            console.log("playing");
+    //       this.mediaRecorder.addEventListener("stop", () => {
+    //         const blob = new Blob(this.audioChunks);
+    //         const url = URL.createObjectURL(blob);
+    //         const audio = new Audio(url);
+    //         audio.play();
+    //         console.log("playing");
 
-            const reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onload = () => {
-              const base64Audio = reader.result.split(',')[1];
-              console.log(base64Audio);
+    //         const reader = new FileReader();
+    //         reader.readAsDataURL(blob);
+    //         reader.onload = () => {
+    //           const base64Audio = reader.result.split(',')[1];
+    //           console.log(base64Audio);
 
-              fetch('http://localhost:8080/recording', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ recording: base64Audio })
-              });
-            };
-          });
-        });
-    },
-    previewRecording() {
-      this.mediaRecorder.stop();
+    //           fetch('http://localhost:8080/recording', {
+    //             method: 'POST',
+    //             headers: {
+    //               'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({ recording: base64Audio })
+    //           });
+    //         };
+    //       });
+    //     });
+    // },
+    // previewRecording() {
+    //   this.mediaRecorder.stop();
 
-      this.$store.commit('setMessage', this.message);
+    //   this.$store.commit('setMessage', this.message);
 
-      this.recording = false;
-      this.message = '';
-    },
+    //   this.recording = false;
+    //   this.message = '';
+    // },
     previewTextRecording() {
       this.$store.commit('setMessage', this.message);
       this.message = '';
