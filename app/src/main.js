@@ -30,7 +30,8 @@ const store = createStore({
       ownName: '',
       partnersName: '',
       message: null,
-      selectedEmoji: null
+      selectedEmoji: null,
+      openMessage: null
     }
   },
   mutations: {
@@ -49,6 +50,9 @@ const store = createStore({
       console.log('setSelectedEmoji');
       console.log(selection);
       state.selectedEmoji = selection;
+    },
+    setOpenMessage(state, message) {
+      state.openMessage = message;
     }
   }
 })

@@ -11,11 +11,34 @@
       <!-- <ion-modal :is-open="selection" @didDismiss="closeEmojiSelection">
         <emoji-selection></emoji-selection>
       </ion-modal> -->
-      <div style="text-align: center; font-size: 2.5em; height: 3em">
+
+      <ion-grid style="height: 100%">
+        <ion-row style="height: 100%" class="ion-align-items-center ion-align-items-stretch">
+          <ion-col style="text-align: center; line-height: 0; font-size: 10em" class="ion-align-self-center">
+            <span v-if="emoji != null" @click="openModal(emoji)">{{ emoji.emoji }}</span>
+            <span v-if="emoji == null" @click="openModal(null)"><ion-icon name="scan-outline"></ion-icon></span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <!-- <div style="text-align: center; font-size: 2.5em; height: 3em">
         <span v-if="emoji != null" @click="openModal(emoji)">{{ emoji.emoji }}</span>
         <span v-if="emoji == null" @click="openModal(null)"><ion-icon name="scan-outline"></ion-icon></span>
-      </div>
-      <ion-toolbar>
+      </div> -->
+
+      <ion-fab slot="fixed" vertical="bottom" horizontal="center">
+        <ion-fab-button @click="send" color="success">
+          <ion-icon name="checkmark-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <ion-fab-button router-link="/conversation" color="danger">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-content>
+
+    <ion-toolbar>
         <ion-buttons slot="start">
           <ion-button v-if="!playing" :disabled="playing" @click="play">
             <ion-icon name="play-outline"></ion-icon>
@@ -29,18 +52,6 @@
         </ion-buttons>
         <ion-range min="0" max="1000" v-model="position" @ionChange="posToEmoji"></ion-range>
       </ion-toolbar>
-
-      <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-        <ion-fab-button @click="send" color="success">
-          <ion-icon name="checkmark-outline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-        <ion-fab-button router-link="/conversation" color="danger">
-          <ion-icon name="close-outline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-    </ion-content>
 
   </ion-page>
 </template>
@@ -132,10 +143,10 @@ export default defineComponent({
   methods: {
     play() {
       this.playing = true;
-      this.playInterval = setInterval(this.doPlay, 500);
+      this.playInterval = setInterval(this.doPlay, 300);
     },
     doPlay() {
-      const progress = this.position + 100;
+      const progress = this.position + (0.3 / this.messageDuration * 1000.0);
       if (progress >= 1000) {
         this.stop();
       } else {
@@ -174,11 +185,11 @@ export default defineComponent({
             emoji: data.action.selection,
             time: this.position / 1000.0
           });
-          this.posToEmoji();
         }
         else if (data.action.name == 'delete') {
           this.emojis = this.emojis.filter(item => item.id != data.prev.id);
         }
+        this.posToEmoji();
       });
       return modal.present();
     },
@@ -208,6 +219,9 @@ export default defineComponent({
     posToEmoji() {
       const normalizedPos = this.position / 1000.0;
       console.log(this.emojis);
+
+      const displayTime = 3.0 / this.messageDuration;
+
       const emoji = this.emojis
         // .map(item => ({
         //   emoji: item.emoji,
@@ -215,7 +229,10 @@ export default defineComponent({
         // }))
         // .filter(emoji => emoji.distance < 0.1)
         // .sort((a, b) => b.distance - a.distance)
-        .filter(item => item.time <= normalizedPos && item.time + 0.1 >= normalizedPos)
+
+        // .filter(item => item.time <= normalizedPos && item.time + 0.1 >= normalizedPos)
+        .filter(item => item.time <= normalizedPos && item.time + displayTime >= normalizedPos)
+        .sort((a, b) => a.time - b.time)
         .pop();
 
       console.log(emoji);
@@ -265,6 +282,7 @@ export default defineComponent({
     })
     .then(response => response.json())
     .then(data => this.emojis = this.emojiTimings(data))
+    .then(() => this.posToEmoji())
     .finally(() => this.loading = false);
   }
 });

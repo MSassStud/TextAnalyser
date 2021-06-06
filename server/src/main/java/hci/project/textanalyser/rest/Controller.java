@@ -199,6 +199,12 @@ public class Controller {
         return ResponseEntity.ok(messages);
     }
     
+    @GetMapping("/messages/{id}")
+    public ResponseEntity<?> getMessage(@PathVariable String id) {
+        
+        return ResponseEntity.ok("");
+    }
+    
     @PutMapping(path = "/topics/{title}")
     public ResponseEntity<?> putTopic(@PathVariable String title, @RequestBody Topic topic) {
         topics.put(topic.getTitle(), topic);

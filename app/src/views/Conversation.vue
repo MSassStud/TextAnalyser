@@ -9,7 +9,7 @@
     <ion-content :fullscreen="true">
       <div>{{ error }}</div>
       <ion-list>
-        <ion-item v-for="message in messages" :key="message.id">
+        <ion-item v-for="message in messages" :key="message.id" @click="openMessage(message)">
           <ion-icon :name="messageIcon(message)" slot="start"></ion-icon>
           <ion-thumbnail slot="start">
           <iframe :src="message.analysedProperties.gifUrl" :height="60" :width="60"></iframe>
@@ -99,9 +99,13 @@ export default defineComponent({
     },
     loadMessages() {
       fetch('http://localhost:8080/conversations?a=' + this.ownName + '&b=' + this.partnersName)
-      .then(response => response.json())
-      .then(data => this.messages = data)
-      .catch(error => this.error = error);
+        .then(response => response.json())
+        .then(data => this.messages = data)
+        .catch(error => this.error = error);
+    },
+    openMessage(message) {
+      this.$store.commit('setOpenMessage', message);
+      this.$router.push('message');
     }
   },
   ionViewWillEnter() {

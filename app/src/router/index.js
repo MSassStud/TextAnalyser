@@ -5,6 +5,7 @@ import Conversation from '../views/Conversation.vue'
 import Record from '../views/Record.vue'
 import Preview from '../views/Preview.vue'
 import RecordSpeech from '../views/RecordSpeech.vue'
+import Message from '../views/Message.vue'
 
 const routes = [
   {
@@ -40,6 +41,11 @@ const routes = [
     path: '/preview',
     name: 'Preview',
     component: Preview
+  },
+  {
+    path: '/message',
+    name: 'Message',
+    component: Message
   }
 ]
 
