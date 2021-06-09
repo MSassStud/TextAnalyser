@@ -76,7 +76,7 @@ public class NounExtractor {
     }
 
     private Noun createSimpleNoun(CoreLabel token) {
-        Noun.Location location = new Noun.Location(token.sentIndex(), token.index() - 1, token.index() - 1);
+        Noun.Location location = new Noun.Location(token.beginPosition(), token.endPosition(), token.sentIndex(), token.index() - 1, token.index() - 1);
         return new Noun(location, List.of(token.word()), false);
     }
 
@@ -84,7 +84,7 @@ public class NounExtractor {
         CoreLabel start = nounTokens.get(startIndex);
         CoreLabel end = nounTokens.get(endIndex);
         
-        Noun.Location location = new Noun.Location(start.sentIndex(), start.index() - 1, end.index() - 1);
+        Noun.Location location = new Noun.Location(start.beginPosition(), end.endPosition(), start.sentIndex(), start.index() - 1, end.index() - 1);
         List<String> words = IntStream.rangeClosed(startIndex, endIndex)
             .mapToObj(nounTokens::get)
             .map(CoreLabel::word)
@@ -138,7 +138,7 @@ public class NounExtractor {
     private List<Noun> mapReferencedNouns(List<MentionedNoun> mentions) {
         return mentions.stream()
             .map(m -> {
-                Noun.Location location = new Noun.Location(m.mention.sentNum - 1, m.mention.startIndex - 1, m.mention.endIndex - 2);
+                Noun.Location location = new Noun.Location(m.nouns.get(0).beginPosition(), m.nouns.get(m.nouns.size() - 1).endPosition(), m.mention.sentNum - 1, m.mention.startIndex - 1, m.mention.endIndex - 2);
                 List<String> words = m.nouns.stream().map(CoreLabel::word).collect(toList());
                 boolean person = m.nouns.stream().anyMatch(n -> "PERSON".equals(n.ner()));
                 return new Noun(location, words, person);

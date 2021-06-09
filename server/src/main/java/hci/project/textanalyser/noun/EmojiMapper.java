@@ -19,18 +19,18 @@ public class EmojiMapper {
         this.index = index;
     }
     
-    public List<String> map(String text) throws XMLStreamException, IOException {
+    public List<MappedEmoji> map(String text) throws XMLStreamException, IOException {
         NounExtractor extractor = NounExtractor.forCasedSentences();
         List<Noun> nouns = extractor.extract(text);
         
         return emojis(nouns);
     }
     
-    public List<String> emojis(List<Noun> nouns) {
-        List<String> mappedEmojis = new ArrayList<>();
+    public List<MappedEmoji> emojis(List<Noun> nouns) {
+        List<MappedEmoji> mappedEmojis = new ArrayList<>();
         for (var noun : nouns) {
             if (noun.isPerson()) {
-                mappedEmojis.add("🧑"); // person, neutral gender
+                mappedEmojis.add(new MappedEmoji("🧑", noun.location().textStart(), noun.location().textEnd(), noun.words())); // person, neutral gender
             } else {
                 String emojis = noun.words().stream()
                     .map(word -> {
@@ -41,7 +41,7 @@ public class EmojiMapper {
                     })
                     .collect(joining());
                 if (!emojis.isEmpty()) {
-                    mappedEmojis.add(emojis);
+                    mappedEmojis.add(new MappedEmoji(emojis, noun.location().textStart(), noun.location().textEnd(), noun.words()));
                 }
             }
         }

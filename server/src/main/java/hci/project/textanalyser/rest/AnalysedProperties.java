@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import hci.project.textanalyser.noun.MappedEmoji;
 import at.mukprojects.giphy4j.entity.search.SearchGiphy;
 import hci.project.textanalyser.sentiment.Sentiment;
 import hci.project.textanalyser.statistical.Keyword;
@@ -41,11 +42,11 @@ public class AnalysedProperties {
         this.keywords = keywords;
     }
 
-    public List<String> getEmojis() {
+    public List<MappedEmoji> getEmojis() {
         return emojis;
     }
 
-    public void setEmojis(List<String> emojis) {
+    public void setEmojis(List<MappedEmoji> emojis) {
         this.emojis = emojis;
     }
 

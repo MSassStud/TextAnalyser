@@ -6,6 +6,6 @@ public class MockImageApi implements IMockImageApi {
 
     @Override
     public String findBy(List<Noun> criteria) {
-        return "http://www.example.org";
+        return "http://localhost:8080/dummy.gif";
     }
 }

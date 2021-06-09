@@ -1,5 +1,6 @@
 package hci.project.textanalyser.rest;
 
+import static java.util.Map.entry;
 import static java.util.stream.Collectors.joining;
 
 import java.io.FileNotFoundException;
@@ -27,9 +28,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Multimap;
 
 import hci.project.textanalyser.noun.EmojiMapper;
+import hci.project.textanalyser.noun.ImageApi;
+import hci.project.textanalyser.noun.MappedEmoji;
 import hci.project.textanalyser.noun.Noun;
 import hci.project.textanalyser.noun.NounExtractor;
 import hci.project.textanalyser.sentiment.Sentiment;
@@ -48,6 +55,7 @@ public class Controller {
     private final Map<String, Topic> topics = new HashMap<>();
     private final INounToGif nounToGif;
     private final Map<Conversation, List<Message>> conversations = new HashMap<>();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     
     public class Conversation {
         private final String userA;
@@ -87,14 +95,16 @@ public class Controller {
         private final String to;
         private final String content;
         private final AnalysedProperties analysedProperties;
+        private final Map<String, Object> data;
 
-        public Message(String id, LocalDateTime createTime, String from, String to, String content, AnalysedProperties analysedProperties) {
+        public Message(String id, LocalDateTime createTime, String from, String to, String content, AnalysedProperties analysedProperties, Map<String, Object> data) {
             this.id = id;
             this.createTime = createTime;
             this.from = from;
             this.to = to;
             this.content = content;
             this.analysedProperties = analysedProperties;
+            this.data = data;
         }
         
         public String getId() {
@@ -118,6 +128,10 @@ public class Controller {
         }
 
         public AnalysedProperties getAnalysedProperties() { return analysedProperties; }
+
+        public Map<String, Object> getData() {
+            return data;
+        }
     }
 
     public Controller(Multimap<String, String> index, INounToGif nounToGif) {
@@ -141,14 +155,40 @@ public class Controller {
     }
     
     @PostMapping("/messages")
-    public ResponseEntity<?> sendMessage(@RequestBody Map<String, String> body) {
-        String from = body.get("from");
-        String to = body.get("to");
+    public ResponseEntity<?> sendMessage(@RequestBody String bdy) throws JsonMappingException, JsonProcessingException {
+        System.out.println(bdy);
+        Map<String, Object> body = objectMapper.readValue(bdy, new TypeReference<Map<String, Object>>() {});
+//        Map<String, String> data = objectMapper.readValue(content.get("data"), new TypeReference<Map<String, String>>() {});
+        String from = (String) body.get("from");
+        String to = (String) body.get("to");
+        Map<String, Object> data = (Map<String, Object>) body.get("data");
+        List<Object> emojis = (List<Object>) data.get("emojis");
+        System.out.println(emojis);
+        
         var conversation = new Conversation(from, to);
-        var message = new Message(UUID.randomUUID().toString(), LocalDateTime.now(), from, to, body.get("message"), this.textToEmojis(body.get("message")));
+        var message = new Message(UUID.randomUUID().toString(), LocalDateTime.now(), from, to, (String) body.get("message"), this.textToEmojis((String) body.get("message")), data);
         List<Message> messages = conversations.computeIfAbsent(conversation, key -> new LinkedList<Message>());
         messages.add(message);
-        return ResponseEntity.ok().build();
+        
+//        List<MappedEmoji> emojis = message.getAnalysedProperties().getEmojis();
+//        Map<String, Object> reply = Map.ofEntries(
+//            entry("emojis", emojis));
+        
+//        return ResponseEntity.ok(reply);
+        return ResponseEntity.noContent().build();
+    }
+    
+    @PostMapping("/preview")
+    public ResponseEntity<?> preview(@RequestBody Map<String, String> body) {
+        String message = body.get("message");
+        AnalysedProperties properties = textToEmojis(message);
+        
+        List<MappedEmoji> emojis = properties.getEmojis();
+        Map<String, Object> reply = Map.ofEntries(
+            entry("message", message),
+            entry("emojis", emojis));
+        
+        return ResponseEntity.ok(reply);
     }
     
     @GetMapping("/conversations")
@@ -156,9 +196,15 @@ public class Controller {
         var conversation = new Conversation(a, b);
         List<Message> messages = conversations.getOrDefault(conversation, new LinkedList<>());
         
-        System.out.println(messages);
+//        System.out.println(messages);
         
         return ResponseEntity.ok(messages);
+    }
+    
+    @GetMapping("/messages/{id}")
+    public ResponseEntity<?> getMessage(@PathVariable String id) {
+        
+        return ResponseEntity.ok("");
     }
     
     @PutMapping(path = "/topics/{title}")
@@ -206,7 +252,7 @@ public class Controller {
         return sentimentAnalyzer.findSentiment(text);
     }
 
-    private List<String> getEmojis(List<Noun> nouns) {
+    private List<MappedEmoji> getEmojis(List<Noun> nouns) {
         EmojiMapper emojiMapper = new EmojiMapper(index);
         return emojiMapper.emojis(nouns);
     }

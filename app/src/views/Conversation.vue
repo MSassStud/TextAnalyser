@@ -9,7 +9,7 @@
     <ion-content :fullscreen="true">
       <div>{{ error }}</div>
       <ion-list>
-        <ion-item v-for="message in messages" :key="message.id">
+        <ion-item v-for="message in messages" :key="message.id" @click="openMessage(message)">
           <ion-icon :name="messageIcon(message)" slot="start"></ion-icon>
           <ion-thumbnail slot="start">
           <iframe :src="message.analysedProperties.gif.data.embedUrl" height="200" :width="200"></iframe>
@@ -48,7 +48,8 @@ import {
   IonIcon,
   IonFab,
   IonFabButton,
-  IonFabList
+  IonFabList,
+  IonThumbnail
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
@@ -68,7 +69,8 @@ export default defineComponent({
     IonIcon,
     IonFab,
     IonFabButton,
-    IonFabList
+    IonFabList,
+    IonThumbnail
   },
   data() {
     return {
@@ -95,10 +97,13 @@ export default defineComponent({
     },
     loadMessages() {
       fetch('http://localhost:8080/conversations?a=' + this.ownName + '&b=' + this.partnersName)
-      .then(response => response.json())
-      .then(data => this.messages = data)
-      .catch(error => this.error = error);
-      console.log(this.data);
+        .then(response => response.json())
+        .then(data => this.messages = data)
+        .catch(error => this.error = error);
+    },
+    openMessage(message) {
+      this.$store.commit('setOpenMessage', message);
+      this.$router.push('message');
     }
   },
   ionViewWillEnter() {
