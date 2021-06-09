@@ -15,7 +15,7 @@ public class AnalysedProperties {
     private Sentiment sentiment = null;
     private List<Keyword> keywords = new ArrayList<>();
     private List<TopicInfo> topics = new ArrayList<>();
-    private List<String> emojis = new ArrayList<>();
+    private List<MappedEmoji> emojis = new ArrayList<>();
     private SearchGiphy gif = null;
 
     public void setSentiment(Sentiment sentiment) {
@@ -42,9 +42,7 @@ public class AnalysedProperties {
         this.keywords = keywords;
     }
 
-    public List<MappedEmoji> getEmojis() {
-        return emojis;
-    }
+    public List<MappedEmoji> getEmojis() {        return emojis;    }
 
     public void setEmojis(List<MappedEmoji> emojis) {
         this.emojis = emojis;

@@ -35,7 +35,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Multimap;
 
 import hci.project.textanalyser.noun.EmojiMapper;
-import hci.project.textanalyser.noun.ImageApi;
 import hci.project.textanalyser.noun.MappedEmoji;
 import hci.project.textanalyser.noun.Noun;
 import hci.project.textanalyser.noun.NounExtractor;
@@ -53,7 +52,7 @@ public class Controller {
     
     private final Multimap<String, String> index;
     private final Map<String, Topic> topics = new HashMap<>();
-    private final INounToGif nounToGif;
+    private final INounToGif<List<Noun>> nounToGif;
     private final Map<Conversation, List<Message>> conversations = new HashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
     
