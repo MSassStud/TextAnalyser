@@ -64,3 +64,105 @@ Die Symbole der passenden Kategorien können neben der Nachricht angezeigt werde
 - Nomen und Namen Gewichtung nach Häufigeit
 - häufigstes Nomen zu giphy api
 - Erstellung klick prototype v1
+- Qualitativer Test mit wenigen usern des Klick prototype
+- Erstellung Ionic App mit Vue Framework
+- Lokale entwicklung der App
+- 
+
+---
+
+Gliederung für Abgabe
+
+---
+#Titel
+Projektdaten: Von - bis, akteure, evtl. pressetext (ersten absatz)
+
+##Inhaltsverzeichnis
+
+##Abstakt
+Worum geht es ganz grob, mit dem Text sollte man sich als konsument entscheiden ob sich das lesen thematisch lohnt
+
+##Thema
+genauere ausführung von Abstakt 
+###Umfeld / Einordnung
+In welchem gebiet stochern wird da herum, was sind player am markt wen könnte es interessieren
+####Projektpartner VoiceUP
+Beschreibung des Projektpartners und warum interesse an der arbeit besteht, was können sie mit einbringen
+###Ähnliche Projekte
+Relevante projekte, allgemein vllt was kann man heute schon SpeechToText machen.
+
+##Projektverlauf
+Wie ist es gastartet, was waren die ersten Ideen
+###Exploration
+In welche richtungen wurde insgesamt gedacht wo hat man potentiale gesehen, wo wurde man hingeschaut und kurz durchdacht.
+###Themenfindung
+Welche bereiche wurden nun weiter ins auge gefasst
+###Entwicklug
+Wie hat man sich den Themenbereichen genähert, was hat man produziert
+###Tests
+Welcher Stand wurde Probanden gezeigt und was haben sie dazu gesagt
+###Zwischenergebnisse
+Welche wichtigen Iterationen gab es. Erste Techideen, Klickdummy
+
+##Ergebnisse
+Was kam grob am ende raus,
+###Prototyp
+Was kann das Produkt nun? Was kann man erahnen? 
+###Workflows
+Wie genau sollte man die App / Api benutzen 
+###Techstack
+Wie ist die Technik aufgebaut, womit wurde gearbeitet, was muss man haben um das auszuprobieren
+###Ergebnisse für VoiceUP
+
+##Ausblick / Weiterführende Ideen
+in welchen bereichen könnte man warum weiter probieren, Kommentare aus den Interviews mit rein nehmen.
+Welche Themen sind zu wenig beleuchtet worden, Wo kann es einen Wert für die Gesellschaft bieten, evtl. arbeit erleichtern.
+Gibt es bestimmte gruppen die besonders davon provitieren könnten
+
+
+##Literaturverzeichnis
+
+##Abbildungsverzeichnis
+
+##Tabellenverzeichnis
+
+##Eidesstattliche Erklärung
+
+##Anhang
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
