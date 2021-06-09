@@ -9,21 +9,21 @@ import at.mukprojects.giphy4j.Giphy;
 import at.mukprojects.giphy4j.entity.search.SearchGiphy;
 import at.mukprojects.giphy4j.exception.GiphyException;
 
-public class NounToGif implements ImageApi<List<Noun>> {
+public class NounToGif implements INounToGif {
     private static final String API_KEY = "57X4b5DJFDgFCPvXdjEiM59BpwVlOH8Z";
-    
+
     @Override
-    public String findBy(List<Noun> nouns) {
+    public SearchGiphy findBy(List<Noun> nouns) {
         return getGif(nouns);
     }
     
-    private String getGif(List<Noun> nouns) {
+    private SearchGiphy getGif(List<Noun> nouns) {
 
         Giphy giphy = new Giphy(API_KEY);
 
         try {
             SearchGiphy searchResult = giphy.translate(this.getMostCommonWordInNouns(nouns));
-            return searchResult.getData().getEmbedUrl();
+            return searchResult;
         } catch (GiphyException e) {
             return null;
         }

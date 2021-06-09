@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
+import at.mukprojects.giphy4j.entity.search.SearchGiphy;
+import hci.project.textanalyser.noun.INounToGif;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.common.collect.Multimap;
 
 import hci.project.textanalyser.noun.EmojiMapper;
-import hci.project.textanalyser.noun.ImageApi;
 import hci.project.textanalyser.noun.Noun;
 import hci.project.textanalyser.noun.NounExtractor;
 import hci.project.textanalyser.sentiment.Sentiment;
@@ -44,8 +45,8 @@ public class Controller {
     private static Logger LOGGER = LoggerFactory.getLogger(Controller.class);
     
     private final Multimap<String, String> index;
-    private final ImageApi<List<Noun>> imageApi;
     private final Map<String, Topic> topics = new HashMap<>();
+    private final INounToGif nounToGif;
     private final Map<Conversation, List<Message>> conversations = new HashMap<>();
     
     public class Conversation {
@@ -119,9 +120,9 @@ public class Controller {
         public AnalysedProperties getAnalysedProperties() { return analysedProperties; }
     }
 
-    public Controller(Multimap<String, String> index, ImageApi<List<Noun>> imageApi) {
+    public Controller(Multimap<String, String> index, INounToGif nounToGif) {
         this.index = index;
-        this.imageApi = imageApi;
+        this.nounToGif = nounToGif;
     }
     
     @PostMapping("/recording")
@@ -210,7 +211,7 @@ public class Controller {
         return emojiMapper.emojis(nouns);
     }
 
-    private String getGif(List<Noun> nouns) {
-        return imageApi.findBy(nouns);
+    private SearchGiphy getGif(List<Noun> nouns) {
+        return nounToGif.findBy(nouns);
     }
 }
