@@ -13,9 +13,14 @@
 
     <ion-content :fullscreen="true" class="ion-padding">
       <ion-grid style="height: 100%">
-        <ion-row style="height: 100%" class="ion-align-items-center ion-align-items-stretch">
+        <ion-row style="height: 80%" class="ion-align-items-center ion-align-items-stretch">
           <ion-col style="text-align: center; line-height: 0; font-size: 10em" class="ion-align-self-center">
               <span v-if="emoji != null">{{ emoji.emoji }}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-textarea id="messageText" rows="3" readonly :value="text"></ion-textarea>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -34,7 +39,7 @@
             <ion-icon name="stop-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
-        <ion-range min="0" max="1000" v-model="position" @ionChange="posToEmoji"></ion-range>
+        <ion-range min="0" max="1000" v-model="position" @ionChange="posUpdated"></ion-range>
       </ion-toolbar>
     </ion-footer>
 
@@ -55,11 +60,14 @@ import {
   IonFooter,
   IonGrid,
   IonRow,
-  IonCol
+  IonCol,
+  IonTextarea
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
 import { checkmarkOutline, closeOutline, scanOutline, playOutline, pauseOutline, stopOutline, arrowBackOutline } from 'ionicons/icons';
+import { server } from '../config.js';
+
 addIcons({
   'checkmark-outline': checkmarkOutline,
   'close-outline': closeOutline,
@@ -86,7 +94,8 @@ export default defineComponent({
     IonFooter,
     IonGrid,
     IonRow,
-    IonCol
+    IonCol,
+    IonTextarea
   },
   data() {
     return {
@@ -97,7 +106,8 @@ export default defineComponent({
       nextId: 1,
       messageDuration: 0,
       playInterval: null,
-      playing: false
+      playing: false,
+      text: ''
     };
   },
   computed: {
@@ -108,7 +118,7 @@ export default defineComponent({
       return this.$store.state.partnersName;
     },
     message() {
-      return this.$store.state.message;
+      return this.$store.state.openMessage.content;
     }
   },
   methods: {
@@ -133,6 +143,17 @@ export default defineComponent({
       this.position = 0.0;
       this.playing = false;
     },
+    posUpdated() {
+      this.posToEmoji();
+
+      if (this.message) {
+        const i = Math.ceil(this.position / 1000.0 * this.message.length);
+        this.text = this.message.substring(0, i);
+      }
+
+      const textArea = document.getElementById('messageText');
+      textArea.scrollTop = textArea.scrollHeight;
+    },
     posToEmoji() {
       const normalizedPos = this.position / 1000.0;
       console.log(this.emojis);
@@ -151,23 +172,16 @@ export default defineComponent({
       } else {
         this.emoji = null;
       }
-    },
-    emojiTimings(result) {
-      const messageLength = result.message.length;
-      const emojis = result.emojis;
-      const timing = emojis.map(item => ({
-          id: this.nextId++,
-          emoji: item.emoji,
-          time: item.textStart / messageLength
-        }));
-      this.messageDuration = messageLength / charsPerSecond;
-      console.log(timing);
-      return timing;
     }
   },
   ionViewDidEnter() {
     const message = this.$store.state.openMessage;
     console.log(message);
+
+    // TODO
+    // fetch('http://' + server() + '/messages/' + message.id)
+    //   .then(response => response.json())
+    //   .then(content => console.log(content));
 
     let nextId = 1;
     this.emojis = message.data.emojis.map(item => ({

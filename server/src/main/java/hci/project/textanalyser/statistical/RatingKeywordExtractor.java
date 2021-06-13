@@ -12,14 +12,14 @@ import java.util.Map;
 public class RatingKeywordExtractor {
     
     public List<Keyword> keywords(String text) {
-        List<String> tokens = tokens(text);
-        Map<String, Integer> occurences = occurences(tokens);
+        List<Token> tokens = tokens(text);
+        Map<String, Integer> occurences = occurences(tokens.stream().map(Token::getText).collect(toList()));
         Map<String, Double> ratings = ratings(occurences);
         List<Keyword> keywords = topN(ratings, 10);
         return keywords;
     }
     
-    private List<String> tokens(String text) {
+    private List<Token> tokens(String text) {
         return new Tokenizer().tokenize(text, new TokenFilter());
     }
     

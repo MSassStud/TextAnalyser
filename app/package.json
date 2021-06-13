@@ -12,8 +12,11 @@
   "dependencies": {
     "@capacitor/android": "^2.4.7",
     "@capacitor/core": "2.4.7",
+    "@ionic-native/core": "^5.33.1",
+    "@ionic-native/speech-recognition": "^5.33.1",
     "@ionic/vue": "^5.4.0",
     "@ionic/vue-router": "^5.4.0",
+    "cordova-plugin-speechrecognition": "^1.2.0",
     "core-js": "^3.6.5",
     "vue": "^3.0.0-0",
     "vue-router": "^4.0.0-0",

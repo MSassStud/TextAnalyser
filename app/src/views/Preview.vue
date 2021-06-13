@@ -10,10 +10,15 @@
       <ion-loading :is-open="loading" message="Loading preview..."></ion-loading>
 
       <ion-grid style="height: 100%">
-        <ion-row style="height: 100%" class="ion-align-items-center ion-align-items-stretch">
+        <ion-row style="height: 80%" class="ion-align-items-center ion-align-items-stretch">
           <ion-col style="text-align: center; line-height: 0; font-size: 10em" class="ion-align-self-center">
             <span v-if="emoji != null" @click="openModal(emoji)">{{ emoji.emoji }}</span>
             <span v-if="emoji == null" @click="openModal(null)"><ion-icon name="scan-outline"></ion-icon></span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-textarea id="messageText" rows="3" readonly :value="text"></ion-textarea>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -42,7 +47,7 @@
             <ion-icon name="stop-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
-        <ion-range min="0" max="1000" v-model="position" @ionChange="posToEmoji"></ion-range>
+        <ion-range min="0" max="1000" v-model="position" @ionChange="posUpdated"></ion-range>
       </ion-toolbar>
 
   </ion-page>
@@ -62,12 +67,18 @@ import {
   IonIcon,
   IonButtons,
   modalController,
-  IonButton
+  IonButton,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonTextarea
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
 import { checkmarkOutline, closeOutline, scanOutline, playOutline, pauseOutline, stopOutline } from 'ionicons/icons';
 import EmojiSelection from "./EmojiSelection.vue";
+import { server } from '../config.js';
+
 addIcons({
   'checkmark-outline': checkmarkOutline,
   'close-outline': closeOutline,
@@ -93,6 +104,10 @@ export default defineComponent({
     IonIcon,
     IonButtons,
     IonButton,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonTextarea
   },
   data() {
     return {
@@ -100,12 +115,12 @@ export default defineComponent({
       loading: true,
       position: 0,
       emoji: null,
-      emojiRef: ['☺️', '😊', '😇', '🙂', '🙃', '😔', '😟', '😕', '🙁', '☹️'],
       selection: false,
       nextId: 1,
       messageDuration: 0,
       playInterval: null,
-      playing: false
+      playing: false,
+      text: ''
     };
   },
   computed: {
@@ -168,12 +183,12 @@ export default defineComponent({
         else if (data.action.name == 'delete') {
           this.emojis = this.emojis.filter(item => item.id != data.prev.id);
         }
-        this.posToEmoji();
+        this.posUpdated();
       });
       return modal.present();
     },
     send() {
-      fetch('http://localhost:8080/messages', {
+      fetch('http://' + server() + '/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -191,6 +206,19 @@ export default defineComponent({
       })
       .then(() => this.$router.push('/conversation'))
       .catch(error => console.error('fetch error', error));
+    },
+    posUpdated() {
+      this.posToEmoji();
+
+      const i = Math.ceil(this.position / 1000.0 * this.message.length);
+      this.text = this.message.substring(0, i);
+
+      const textArea = document.getElementById('messageText');
+      // console.log('st: ' + textArea.scrollTop);
+      // console.log('sh: ' + textArea.scrollHeight);
+      
+      textArea.scrollTop = textArea.scrollHeight;
+      // console.log('>st: ' + textArea.scrollTop);
     },
     posToEmoji() {
       const normalizedPos = this.position / 1000.0;
@@ -237,7 +265,7 @@ export default defineComponent({
     }
   },
   ionViewDidEnter() {
-    fetch('http://localhost:8080/preview', {
+    fetch('http://' + server() + '/preview', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

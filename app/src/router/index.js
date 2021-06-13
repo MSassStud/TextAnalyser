@@ -5,6 +5,7 @@ import Conversation from '../views/Conversation.vue'
 import Record from '../views/Record.vue'
 import Preview from '../views/Preview.vue'
 import RecordSpeech from '../views/RecordSpeech.vue'
+import RecordSpeechAndroid from '../views/RecordSpeechAndroid.vue'
 import Message from '../views/Message.vue'
 
 const routes = [
@@ -36,6 +37,11 @@ const routes = [
     path: '/recordSpeech',
     name: 'RecordSpeech',
     component: RecordSpeech
+  },
+  {
+    path: '/recordSpeechAndroid',
+    name: 'RecordSpeechAndroid',
+    component: RecordSpeechAndroid
   },
   {
     path: '/preview',

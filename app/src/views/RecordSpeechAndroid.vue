@@ -53,7 +53,7 @@ import { server } from '../config.js';
 addIcons({ 'mic-outline': micOutline, stop });
 
 export default defineComponent({
-  name: "RecordSpeech",
+  name: "RecordSpeechAndroid",
   components: {
     IonContent,
     IonPage,
@@ -134,7 +134,7 @@ export default defineComponent({
       // SpeechRecognition.startListening().subscribe(matches => console.log(matches), onerror => console.log('error:', onerror));
       SpeechRecognition.isRecognitionAvailable().then(available => this.errors = this.errors + 'available: ' + available);
       SpeechRecognition.hasPermission().then(hasPermission => this.errors = this.errors + 'hasPermission: ' + hasPermission);
-      SpeechRecognition.startListening().subscribe(matches => this.errors = this.errors + matches, onerror => this.errors = this.errors + 'error:' + onerror);
+      SpeechRecognition.startListening({matches: 1}).subscribe(matches => this.errors = this.errors + matches, onerror => this.errors = this.errors + 'error:' + onerror);
     },
     previewRecording() {
       this.$store.commit('setMessage', this.message);

@@ -8,9 +8,9 @@ import java.util.function.Predicate;
 
 public class Tokenizer {
 
-    public List<String> tokenize(String text, Predicate<String> filter) {
+    public List<Token> tokenize(String text, Predicate<String> filter) {
         String normalized = text.replace("\\s+", " ");
-        List<String> tokens = new ArrayList<>();
+        List<Token> tokens = new ArrayList<>();
         int tokenStart = 0;
         int tokenEnd = 0;
         for (int i = 0; i < normalized.length(); i++) {
@@ -18,11 +18,11 @@ public class Tokenizer {
             if (next.matches(" |\\.|,|!|\\?")) {
                 if (tokenEnd - tokenStart > 0) {
                     String token = normalized.substring(tokenStart, tokenEnd);
-                    tokens.add(token);
+                    tokens.add(new Token(token, tokenStart, tokenEnd));
                 }
                 String token = normalized.substring(i, i + 1);
                 if (!token.isBlank()) {
-                    tokens.add(token);
+                    tokens.add(new Token(token, i, i + 1));
                 }
                 tokenStart = i + 1;
                 tokenEnd = i + 1;
@@ -31,10 +31,10 @@ public class Tokenizer {
             }
         }
         if (tokenStart < normalized.length() - 1) {
-            tokens.add(normalized.substring(tokenStart));
+            tokens.add(new Token(normalized.substring(tokenStart), tokenStart, normalized.length() - 1));
         }
         return tokens.stream()
-            .filter(filter)
+            .filter(token -> filter.test(token.getText()))
             .collect(toList());
     }
 }

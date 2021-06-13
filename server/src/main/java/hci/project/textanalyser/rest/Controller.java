@@ -53,6 +53,7 @@ public class Controller {
     private final ImageApi<List<Noun>> imageApi;
     private final Map<String, Topic> topics = new HashMap<>();
     private final Map<Conversation, List<Message>> conversations = new HashMap<>();
+    private final Map<String, Message> messages = new HashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
     
     public class Conversation {
@@ -165,8 +166,9 @@ public class Controller {
         
         var conversation = new Conversation(from, to);
         var message = new Message(UUID.randomUUID().toString(), LocalDateTime.now(), from, to, (String) body.get("message"), this.textToEmojis((String) body.get("message")), data);
-        List<Message> messages = conversations.computeIfAbsent(conversation, key -> new LinkedList<Message>());
-        messages.add(message);
+        List<Message> conversationMessages = conversations.computeIfAbsent(conversation, key -> new LinkedList<Message>());
+        conversationMessages.add(message);
+        messages.put(message.getId(), message);
         
 //        List<MappedEmoji> emojis = message.getAnalysedProperties().getEmojis();
 //        Map<String, Object> reply = Map.ofEntries(
@@ -201,8 +203,11 @@ public class Controller {
     
     @GetMapping("/messages/{id}")
     public ResponseEntity<?> getMessage(@PathVariable String id) {
+        Map<String, Object> reply = new HashMap<>();
+        reply.put("message", messages.get(id));
+//        reply.put("topics", value)
         
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok(messages.get(id));
     }
     
     @PutMapping(path = "/topics/{title}")

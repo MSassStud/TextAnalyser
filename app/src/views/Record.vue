@@ -20,16 +20,17 @@
           <ion-col>
             <ion-item>
               <ion-label position="stacked" class="upper">Your message</ion-label>
-              <ion-textarea v-if="recording" v-model="message" auto-grow="true"></ion-textarea>
+              <ion-textarea v-model="message" auto-grow="true"></ion-textarea>
+              <ion-button slot="end" :disabled="!speechAvailable" @click="recordSentence">Record speech</ion-button>
             </ion-item>
           </ion-col>
         </ion-row>
       </ion-grid>
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-        <ion-fab-button @click="previewTextRecording">
-          <ion-icon name="stop"></ion-icon>
-        </ion-fab-button>
+          <ion-fab-button @click="previewTextRecording">
+            <ion-icon name="stop"></ion-icon>
+          </ion-fab-button>
       </ion-fab>
     </ion-content>
 
@@ -53,11 +54,14 @@ import {
   IonCol,
   IonSpinner,
   IonItem,
-  IonLabel
+  IonLabel,
+  IonButton
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
 import { micOutline, stop } from 'ionicons/icons';
+import { SpeechRecognition } from '@ionic-native/speech-recognition';
+
 addIcons({ 'mic-outline': micOutline, stop });
 
 export default defineComponent({
@@ -78,14 +82,15 @@ export default defineComponent({
     IonCol,
     IonSpinner,
     IonItem,
-    IonLabel
+    IonLabel,
+    IonButton
   },
   data() {
     return {
-      recording: true,
       message: '',
       mediaRecorder: null,
-      audioChunks: null
+      audioChunks: null,
+      speechAvailable: false
     };
   },
   computed: {
@@ -94,15 +99,42 @@ export default defineComponent({
     }
   },
   methods: {
-    recordText() {
-      this.recording = true;
+    async recordSentence() {
+      const speechAvailable = await this.checkSpeech();
+
+      if (speechAvailable) {
+        SpeechRecognition.startListening({matches: 1}).subscribe(
+          matches => {
+            const space = this.message.length == 0 ? '' : ' ';
+            this.message = this.message + space + matches;
+          },
+          onerror => console.error(onerror));
+      }
     },
     previewTextRecording() {
       this.$store.commit('setMessage', this.message);
       this.message = '';
       
       this.$router.push('/preview');
+    },
+    async checkSpeech() {
+      try {
+        const available = await SpeechRecognition.isRecognitionAvailable();
+        const hasPermission = await SpeechRecognition.hasPermission();
+        return available && hasPermission;
+      } catch(error) {
+        console.error('speech recognition check failed', error);
+        return false;
+      }
     }
+  },
+  ionViewWillEnter() {
+    this.checkSpeech()
+      .then(speechAvailable => {
+        console.log('speech available: ' + speechAvailable)
+        this.speechAvailable = speechAvailable;
+      })
+      .catch(error => console.error(error));
   }
 });
 </script>

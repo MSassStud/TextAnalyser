@@ -19,17 +19,9 @@
       </ion-list>
 
       <ion-fab slot="fixed" vertical="bottom" horizontal="center">
-        <ion-fab-button>
+        <ion-fab-button router-link="/record">
           <ion-icon name="mic"></ion-icon>
         </ion-fab-button>
-        <ion-fab-list side="top">
-          <ion-fab-button router-link="/record">
-            <ion-icon name="text-outline"></ion-icon>
-          </ion-fab-button>
-          <ion-fab-button router-link="/recordSpeech">
-            <ion-icon name="chatbox-outline"></ion-icon>
-          </ion-fab-button>
-        </ion-fab-list>
       </ion-fab>
     </ion-content>
 
@@ -49,12 +41,13 @@ import {
   IonIcon,
   IonFab,
   IonFabButton,
-  IonFabList,
   IonThumbnail
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
 import { personCircle, personCircleOutline, mic, chatboxOutline, textOutline } from 'ionicons/icons';
+import { server } from '../config.js';
+
 addIcons({ "person-circle": personCircle, "person-circle-outline": personCircleOutline, mic, 'chatbox-outline': chatboxOutline, 'text-outline': textOutline });
 
 export default defineComponent({
@@ -71,7 +64,6 @@ export default defineComponent({
     IonIcon,
     IonFab,
     IonFabButton,
-    IonFabList,
     IonThumbnail
   },
   data() {
@@ -98,7 +90,7 @@ export default defineComponent({
       return this.ownName == message.from ? 'person-circle' : 'person-circle-outline';
     },
     loadMessages() {
-      fetch('http://localhost:8080/conversations?a=' + this.ownName + '&b=' + this.partnersName)
+      fetch('http://' + server() + '/conversations?a=' + this.ownName + '&b=' + this.partnersName)
         .then(response => response.json())
         .then(data => this.messages = data)
         .catch(error => this.error = error);
