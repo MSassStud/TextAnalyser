@@ -5,18 +5,13 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
+import hci.project.textanalyser.noun.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 import com.google.common.collect.Multimap;
-
-import hci.project.textanalyser.noun.EmojiParser;
-import hci.project.textanalyser.noun.ImageApi;
-import hci.project.textanalyser.noun.MockImageApi;
-import hci.project.textanalyser.noun.Noun;
-import hci.project.textanalyser.noun.NounToGif;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -29,13 +24,13 @@ public class ApplicationConfiguration {
     
     @ConditionalOnProperty(name = "api.image", havingValue = "mock")
     @Bean
-    public ImageApi<List<Noun>> mockImageApi() {
+    public IMockImageApi mockImageApi() {
         return new MockImageApi();
     }
     
     @ConditionalOnProperty(name = "api.image", havingValue = "giphy")
     @Bean
-    public ImageApi<List<Noun>> giphyImageApi() {
+    public INounToGif giphyImageApi() {
         return new NounToGif();
     }
 }

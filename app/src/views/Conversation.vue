@@ -12,9 +12,9 @@
         <ion-item v-for="message in messages" :key="message.id" @click="openMessage(message)">
           <ion-icon :name="messageIcon(message)" slot="start"></ion-icon>
           <ion-thumbnail slot="start">
-          <iframe :src="message.analysedProperties.gifUrl" :height="60" :width="60"></iframe>
+          <iframe :src="message.analysedProperties.gif.data.embedUrl" height="200" :width="200"></iframe>
           </ion-thumbnail>
-          <ion-label>{{ message.content }}</ion-label>
+          <p>{{ message.content }}</p>
         </ion-item>
       </ion-list>
 
@@ -37,7 +37,6 @@ import {
   IonTitle,
   IonList,
   IonItem,
-  IonLabel,
   IonIcon,
   IonFab,
   IonFabButton,
@@ -60,7 +59,6 @@ export default defineComponent({
     IonTitle,
     IonList,
     IonItem,
-    IonLabel,
     IonIcon,
     IonFab,
     IonFabButton,
@@ -112,4 +110,8 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
+ion-item {
+    --min-height: 200px;
+}
 </style>
