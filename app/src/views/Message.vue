@@ -195,7 +195,7 @@ export default defineComponent({
     this.posToEmoji();
   },
   ionViewDidLeave() {
-    this.store.commit('setOpenMessage', null);
+    this.$store.commit('setOpenMessage', null);
   }
 });
 </script>
