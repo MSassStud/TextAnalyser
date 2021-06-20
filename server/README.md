@@ -83,7 +83,8 @@ Projektdaten: Von - bis, akteure, evtl. pressetext (ersten absatz)
 In diesem Projekt ging es darum den Einsazt von Sprachnachrichten zu optimieren und mögliche Anwendungsgebiete zu finden. Mit einem StartUp zusammen, welches einen rein Sprachnachrichten basierten Chat aufbaut haben wir innerhalb 2 Semester die Anwendungsmöglichkeiten für diesen Zweck beleuchtet. Die Ausgangsfrage war immer: "Wie kann man dem Empfänger das Empfangen einer Sprachnachricht möglichst komfortabel gestalten.".
 
 ##Thema
-genauere ausführung von Abstakt 
+Sprachnachrichten sind zum Versenden sehr einfach und praktikabel. Um schnell eine Nachricht asynchron an einen Empfänger zu senden benötigt es in gängigen Applikationen meist nur einen Klick. Die Nachricht wird aufgenommen und dem Empfänger zugestellt in kürzester Zeit. Der Empfänger bekommt als Interface einen Zeitstrahl der die Nachricht darstellt und einen Start sowie Pause Button präsentiert. Vor- und Zurückspulen ist in vielen Fällen auch möglich. Diese Grundfunktionalitäten bieten derzeit viele Hersteller an. Mehr als sich die Nachrichten so oft anzuhören wie man möchte geht dann im Normalfall nicht. Ein Chat mit vielen Sprachnachrichten ist nicht durchsuchbar, filterbar, scanbar oder optisch nachvollziehbar. An disem Punkt haben wir uns weiterführende Funktionalitäten gesucht. Beispielsweise könnte man dem Empfänger einen Hinweis zum Inhalt präsentieren in vielerlei Form. Automatisch generierte Bilderkollagen, passende GIFs aber auch Suchfunktionen, Verlinkungen oder Kalendereinträge könnte das Empfangen einer Sprachnachricht angenemer machen.
+
 ###Umfeld / Einordnung
 In welchem gebiet stochern wird da herum, was sind player am markt wen könnte es interessieren
 ####Projektpartner VoiceUP
