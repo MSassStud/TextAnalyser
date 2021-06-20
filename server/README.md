@@ -80,7 +80,7 @@ Projektdaten: Von - bis, akteure, evtl. pressetext (ersten absatz)
 ##Inhaltsverzeichnis
 
 ##Abstakt
-Worum geht es ganz grob, mit dem Text sollte man sich als konsument entscheiden ob sich das lesen thematisch lohnt
+In diesem Projekt ging es darum den Einsazt von Sprachnachrichten zu optimieren und mögliche Anwendungsgebiete zu finden. Mit einem StartUp zusammen, welches einen rein Sprachnachrichten basierten Chat aufbaut haben wir innerhalb 2 Semester die Anwendungsmöglichkeiten für diesen Zweck beleuchtet. Die Ausgangsfrage war immer: "Wie kann man dem Empfänger das Empfangen einer Sprachnachricht möglichst komfortabel gestalten.".
 
 ##Thema
 genauere ausführung von Abstakt 
