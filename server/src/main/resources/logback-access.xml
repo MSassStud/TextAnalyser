@@ -1,0 +1,10 @@
+<configuration>
+	<appender name="STDOUT2" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%fullRequest%n%n%fullResponse</pattern>
+		</encoder>
+	</appender>
+
+	<appender-ref ref="STDOUT2" />
+    
+</configuration>

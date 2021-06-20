@@ -5,14 +5,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Topic {
+    private final String id;
     private final String title;
     private final Set<String> keywords = new HashSet<>();
     private final String emojis;
     
-    public Topic(String title, Collection<String> keywords, String emojis) {
+    public Topic(String id, String title, Collection<String> keywords, String emojis) {
+        this.id = id;
         this.title = title;
         this.keywords.addAll(keywords);
         this.emojis = emojis;
+    }
+    
+    public String getId() {
+        return id;
     }
     
     public String getTitle() {

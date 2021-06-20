@@ -36,7 +36,13 @@ export default defineComponent({
   name: "EmojiSelection",
   emits: ['selectedEmoji'],
   props: {
-    emoji: Object
+    emoji: {
+      type: Object,
+      validator(value) {
+        return typeof value.emoji === 'string'
+          && typeof value.time === 'number';
+      }
+    }
   },
   components: {
     IonContent,

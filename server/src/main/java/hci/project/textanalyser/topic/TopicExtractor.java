@@ -46,7 +46,11 @@ public class TopicExtractor {
             for (var entry : topics.entrySet()) {
                 Topic topic = entry.getValue();
                 if (topic.getKeywords().contains(token.getText())) {
-                    matching.putIfAbsent(topic, new ArrayList<>()).add(token);
+                    matching.computeIfAbsent(topic, t -> new ArrayList<>()).add(token);
+                }
+                // simple attempt at finding plurals
+                if (token.getText().endsWith("s") && topic.getKeywords().contains(token.getText().substring(0, token.getText().length() - 1))) {
+                    matching.computeIfAbsent(topic, t -> new ArrayList<>()).add(token);
                 }
             }
         }

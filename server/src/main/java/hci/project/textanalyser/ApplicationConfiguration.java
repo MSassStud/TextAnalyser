@@ -5,13 +5,20 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import hci.project.textanalyser.noun.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 import com.google.common.collect.Multimap;
+
+import ch.qos.logback.access.servlet.TeeFilter;
+import hci.project.textanalyser.noun.EmojiParser;
+import hci.project.textanalyser.noun.INounToGif;
+import hci.project.textanalyser.noun.MockImageApi;
+import hci.project.textanalyser.noun.Noun;
+import hci.project.textanalyser.noun.NounToGif;
 
 @Configuration
 public class ApplicationConfiguration {
@@ -24,13 +31,25 @@ public class ApplicationConfiguration {
     
     @ConditionalOnProperty(name = "api.image", havingValue = "mock")
     @Bean
-    public IMockImageApi mockImageApi() {
+    public INounToGif<List<Noun>> mockImageApi() {
         return new MockImageApi();
     }
     
     @ConditionalOnProperty(name = "api.image", havingValue = "giphy")
     @Bean
-    public INounToGif giphyImageApi() {
+    public INounToGif<List<Noun>> giphyImageApi() {
         return new NounToGif();
+    }
+    
+    @Bean
+    public FilterRegistrationBean<TeeFilter> requestResponseLogger() {
+        var filter = new TeeFilter();
+        
+        var registration = new FilterRegistrationBean<TeeFilter>();
+        registration.setFilter(filter);
+        registration.setName("Request/Response Logging Filter");
+        registration.addUrlPatterns("/conversations");
+        
+        return registration;
     }
 }

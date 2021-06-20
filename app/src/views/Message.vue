@@ -8,6 +8,11 @@
           </ion-button>
         </ion-buttons>
         <ion-title>{{ partnersName }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button @click="openMentionsModal">
+            <ion-icon name="star-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
@@ -61,12 +66,23 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonTextarea
+  IonTextarea,
+  modalController
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
-import { checkmarkOutline, closeOutline, scanOutline, playOutline, pauseOutline, stopOutline, arrowBackOutline } from 'ionicons/icons';
-import { server } from '../config.js';
+import {
+  checkmarkOutline,
+  closeOutline,
+  scanOutline,
+  playOutline,
+  pauseOutline,
+  stopOutline,
+  arrowBackOutline,
+  starOutline
+} from 'ionicons/icons';
+import * as Api from '@/api.js';
+import Mentions from '@/views/Mentions.vue';
 
 addIcons({
   'checkmark-outline': checkmarkOutline,
@@ -75,7 +91,9 @@ addIcons({
   'play-outline': playOutline,
   'pause-outline': pauseOutline,
   'stop-outline': stopOutline,
-  'arrow-back-outline': arrowBackOutline });
+  'arrow-back-outline': arrowBackOutline,
+  'star-outline': starOutline
+});
 
 const charsPerSecond = 10;
 
@@ -118,7 +136,13 @@ export default defineComponent({
       return this.$store.state.partnersName;
     },
     message() {
-      return this.$store.state.openMessage.content;
+      if (this.$store.state.openMessage) {
+        return this.$store.state.openMessage.content;
+      }
+      return null;
+    },
+    message2() {
+      return this.$store.state.openMessage2 || {};
     }
   },
   methods: {
@@ -172,30 +196,61 @@ export default defineComponent({
       } else {
         this.emoji = null;
       }
+    },
+    storeMessage(message) {
+    this.$store.commit('setOpenMessage2', message);
+    },
+    clearMessage() {
+      this.$store.commit('setOpenMessage', null);
+      this.$store.commit('setOpenMessage2', null);
+    },
+    updateMessage(message) {
+      let nextId = 1;
+      this.emojis = message.emojis.map(item => ({
+        id: nextId++,
+        emoji: item.emoji,
+        time: item.time
+      }));
+
+      this.messageDuration = message.text.length / charsPerSecond;
+
+      this.posToEmoji();
+    },
+    async openMentionsModal() {
+      const modal = await modalController.create({
+        component: Mentions,
+        componentProps: {
+          mentions: this.message2.mentions
+        }
+      });
+
+      modal.onDidDismiss()
+        .then(returned => {
+          console.log('mark: ' + returned.data.mark);
+          if (returned.data.mark != null) {
+            this.position = returned.data.mark / this.message2.text.length * 1000;
+            this.posUpdated();
+          }
+        });
+
+      return modal.present();
     }
   },
   ionViewDidEnter() {
-    const message = this.$store.state.openMessage;
-    console.log(message);
+    const id = this.$store.state.openMessage.id;
 
-    // TODO
-    // fetch('http://' + server() + '/messages/' + message.id)
-    //   .then(response => response.json())
-    //   .then(content => console.log(content));
+    console.log(this.$store.state.ownName);
 
-    let nextId = 1;
-    this.emojis = message.data.emojis.map(item => ({
-      id: nextId++,
-      emoji: item.emoji,
-      time: item.time
-    }));
-
-    this.messageDuration = message.content.length / charsPerSecond;
-
-    this.posToEmoji();
+    Api.getMessage(id, this.ownName)
+      .then(response => response.json())
+      .then(message => {
+        this.storeMessage(message);
+        return message;
+      })
+      .then(this.updateMessage);
   },
   ionViewDidLeave() {
-    this.$store.commit('setOpenMessage', null);
+    this.clearMessage();
   }
 });
 </script>

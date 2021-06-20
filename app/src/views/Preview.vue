@@ -170,6 +170,9 @@ export default defineComponent({
       modal.onDidDismiss().then(returned => {
         console.log('dismissed with ' + returned.data);
         const data = returned.data;
+        if (data.action == null) {
+          return;
+        }
         if (data.prev && data.action.name == 'select') {
           data.prev.emoji = data.action.selection;
         }

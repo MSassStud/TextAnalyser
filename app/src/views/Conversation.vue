@@ -3,6 +3,9 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>{{ partnersName }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button @click="openTopics">MT</ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
 
@@ -12,7 +15,7 @@
         <ion-item v-for="message in messages" :key="message.id" @click="openMessage(message)">
           <ion-icon :name="messageIcon(message)" slot="start"></ion-icon>
           <ion-thumbnail slot="start">
-          <iframe :src="message.analysedProperties.gif.data.embedUrl" height="200" :width="200"></iframe>
+          <iframe :src="gifUrl(message)" height="200" :width="200"></iframe>
           </ion-thumbnail>
           <p>{{ message.content }}</p>
         </ion-item>
@@ -40,7 +43,9 @@ import {
   IonIcon,
   IonFab,
   IonFabButton,
-  IonThumbnail
+  IonThumbnail,
+  IonButtons,
+  IonButton
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
@@ -62,7 +67,9 @@ export default defineComponent({
     IonIcon,
     IonFab,
     IonFabButton,
-    IonThumbnail
+    IonThumbnail,
+    IonButtons,
+    IonButton
   },
   data() {
     return {
@@ -96,6 +103,15 @@ export default defineComponent({
     openMessage(message) {
       this.$store.commit('setOpenMessage', message);
       this.$router.push('message');
+    },
+    openTopics() {
+      this.$router.push('topics');
+    },
+    gifUrl(message) {
+      if (message.analysedProperties.gif.data) {
+        return message.analysedProperties.gif.data.embedUrl;
+      }
+      return '';
     }
   },
   ionViewWillEnter() {

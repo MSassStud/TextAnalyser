@@ -31,7 +31,8 @@ const store = createStore({
       partnersName: '',
       message: null,
       selectedEmoji: null,
-      openMessage: null
+      openMessage: null,
+      openMessage2: null
     }
   },
   mutations: {
@@ -53,6 +54,9 @@ const store = createStore({
     },
     setOpenMessage(state, message) {
       state.openMessage = message;
+    },
+    setOpenMessage2(state, message) {
+      state.openMessage2 = message;
     }
   }
 })

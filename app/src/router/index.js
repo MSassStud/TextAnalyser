@@ -7,6 +7,8 @@ import Preview from '../views/Preview.vue'
 import RecordSpeech from '../views/RecordSpeech.vue'
 import RecordSpeechAndroid from '../views/RecordSpeechAndroid.vue'
 import Message from '../views/Message.vue'
+import Topic from '../views/Topic.vue'
+import Topics from '../views/Topics.vue'
 
 const routes = [
   {
@@ -52,7 +54,17 @@ const routes = [
     path: '/message',
     name: 'Message',
     component: Message
-  }
+  },
+  {
+    path: '/topic/:id?',
+    name: 'Topic',
+    component: Topic
+  },
+  {
+    path: '/topics',
+    name: 'Topics',
+    component: Topics
+  },
 ]
 
 const router = createRouter({
