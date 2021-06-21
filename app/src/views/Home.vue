@@ -61,7 +61,7 @@ export default defineComponent({
         own: this.ownName,
         partner: this.partnersName
       });
-      this.$router.push('/conversation');
+      this.$router.push('/conversation2');
     }
   }
 });

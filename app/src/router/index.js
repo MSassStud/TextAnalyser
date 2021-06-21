@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import Home from '../views/Home.vue'
 import Contacts from '../views/Contacts.vue'
 import Conversation from '../views/Conversation.vue'
+import Conversation2 from '../views/Conversation2.vue'
 import Record from '../views/Record.vue'
 import Preview from '../views/Preview.vue'
 import RecordSpeech from '../views/RecordSpeech.vue'
@@ -31,6 +32,11 @@ const routes = [
     component: Conversation
   },
   {
+    path: '/conversation2',
+    name: 'Conversation2',
+    component: Conversation2
+  },
+  {
     path: '/record',
     name: 'Record',
     component: Record
@@ -51,7 +57,7 @@ const routes = [
     component: Preview
   },
   {
-    path: '/message',
+    path: '/message/:id',
     name: 'Message',
     component: Message
   },

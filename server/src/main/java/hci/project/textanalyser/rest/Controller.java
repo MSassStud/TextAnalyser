@@ -8,9 +8,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -65,8 +68,6 @@ public class Controller {
     public Controller(Multimap<String, String> index, INounToGif<List<Noun>> nounToGif) {
         this.index = index;
         this.nounToGif = nounToGif;
-        
-        topics.put("Animals", new Topic("1", "Animals", List.of("mouse", "elephant", "horse"), "🐯"));
     }
     
     @PostMapping("/users/{user}/topics")
@@ -189,6 +190,34 @@ public class Controller {
         List<Message> messages = conversations.getOrDefault(conversation, new LinkedList<>());
         
         return ResponseEntity.ok(messages);
+    }
+    
+    @GetMapping("/conversations2")
+    public ResponseEntity<?> getConversation2(@RequestParam String a, @RequestParam String b) {
+        var conversation = new Conversation(a, b);
+        List<Message> messages = conversations.getOrDefault(conversation, new LinkedList<>());
+        
+        Collection<Topic> topics2 = userTopics.getOrDefault(a, new HashMap<>()).values();
+        TopicExtractor topicExtractor = new TopicExtractor(topics2);
+        List<Map<String, Object>> mappedMessages = new LinkedList<>();
+        for (var message : messages) {
+            List<TopicInfo> ts = topicExtractor.extract(message.getContent());
+            
+            Map<String, Object> reply = new HashMap<>();
+            reply.put("id", message.getId());
+            reply.put("from", message.getFrom());
+            reply.put("to", message.getTo());
+            reply.put("time", message.getCreateTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.ENGLISH)));
+            reply.put("mentions", ts);
+            SearchGiphy gif = message.getAnalysedProperties().getGif();
+            if (gif != null) {
+                reply.put("gifUrl", gif.getData().getImages().getOriginal().getUrl());
+            }
+            
+            mappedMessages.add(reply);
+        }
+        
+        return ResponseEntity.ok(mappedMessages);
     }
     
     @GetMapping("/messages/{id}")

@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-button router-link="/conversation">
+          <ion-button router-link="/conversation2">
             <ion-icon name="arrow-back-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -135,14 +135,14 @@ export default defineComponent({
     partnersName() {
       return this.$store.state.partnersName;
     },
-    message() {
-      if (this.$store.state.openMessage) {
-        return this.$store.state.openMessage.content;
-      }
-      return null;
-    },
+    // message() {
+    //   if (this.$store.state.openMessage) {
+    //     return this.$store.state.openMessage.content;
+    //   }
+    //   return null;
+    // },
     message2() {
-      return this.$store.state.openMessage2 || {};
+      return this.$store.state.openMessage2;
     }
   },
   methods: {
@@ -170,9 +170,9 @@ export default defineComponent({
     posUpdated() {
       this.posToEmoji();
 
-      if (this.message) {
-        const i = Math.ceil(this.position / 1000.0 * this.message.length);
-        this.text = this.message.substring(0, i);
+      if (this.message2) {
+        const i = Math.ceil(this.position / 1000.0 * this.message2.text.length);
+        this.text = this.message2.text.substring(0, i);
       }
 
       const textArea = document.getElementById('messageText');
@@ -237,7 +237,8 @@ export default defineComponent({
     }
   },
   ionViewDidEnter() {
-    const id = this.$store.state.openMessage.id;
+    // const id = this.$store.state.openMessage.id;
+    const id = this.$route.params.id;
 
     console.log(this.$store.state.ownName);
 

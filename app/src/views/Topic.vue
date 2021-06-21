@@ -133,10 +133,16 @@ export default defineComponent({
 
       Api.saveTopic(this.username, topic)
         .then(() => this.$router.push('/topics'));
+    },
+    clearData() {
+      this.emoji = '';
+      this.title = '';
+      this.keywords = '';
     }
   },
   ionViewDidEnter() {
     const id = this.$route.params.id;
+
     if (id) {
       Api.getTopic(this.username, id)
         .then(response => response.json())
@@ -146,6 +152,9 @@ export default defineComponent({
           this.keywords = topic.keywords;
         });
     }
+  },
+  ionViewDidLeave() {
+    this.clearData();
   }
 });
 </script>

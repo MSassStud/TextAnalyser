@@ -29,7 +29,7 @@
         </ion-fab-button>
       </ion-fab>
       <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-        <ion-fab-button router-link="/conversation" color="danger">
+        <ion-fab-button router-link="/conversation2" color="danger">
           <ion-icon name="close-outline"></ion-icon>
         </ion-fab-button>
       </ion-fab>
@@ -207,7 +207,7 @@ export default defineComponent({
           }
         })
       })
-      .then(() => this.$router.push('/conversation'))
+      .then(() => this.$router.push('/conversation2'))
       .catch(error => console.error('fetch error', error));
     },
     posUpdated() {

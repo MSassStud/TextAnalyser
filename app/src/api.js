@@ -12,6 +12,22 @@ async function getMessage(id, username) {
 
 /**
  * @param {string} username 
+ * @param {string} partnersName 
+ */
+async function getConversation(username, partnersName) {
+    return fetch(`http://${host}/conversations?a=${username}&b=${partnersName}`);
+}
+
+/**
+ * @param {string} username 
+ * @param {string} partnersName 
+ */
+ async function getConversation2(username, partnersName) {
+    return fetch(`http://${host}/conversations2?a=${username}&b=${partnersName}`);
+}
+
+/**
+ * @param {string} username 
  * @param {string} id a UUID
  */
 async function getTopic(username, id) {
@@ -51,6 +67,8 @@ async function getTopics(username) {
 }
 
 export {
+    getConversation,
+    getConversation2,
     getMessage,
     getTopics,
     getTopic,
