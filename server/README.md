@@ -89,7 +89,8 @@ Sprachnachrichten sind zum Versenden sehr einfach und praktikabel. Um schnell ei
 Seit einigen Jahren sind Textchats als Nachvolger von SMS ein fester Bestandteil im Alltag vieler Menschen. Als alternative eines synchronen Telefonats sind Sprachnachrichten inzwischen in vielen Chats integriert. Am Markt gibt es diverse Chatprogramme und fast jeder mit einem Smartphone setzt auf mindestens eines der Programme. Die prominentesten Softwarelösungen sind WhatsApp, Facebook Messanger, WeChat, QQ, Telegram und Snapchat. [ https://www.messengerpeople.com/de/weltweite-nutzer-statistik-fuer-whatsapp-wechat-und-andere-messenger/ ]. Bis auf die Grundfunktionalitäten einer Sprachnachricht bieten sie keine Komfortfunktionen beim Empfangen dieser Art von Nachrichten an. 
 
 ####Projektpartner VoiceUP
-Beschreibung des Projektpartners und warum interesse an der arbeit besteht, was können sie mit einbringen
+Während des Projektes hat uns ein StartUp aus Berlin begleitet. Es arbeitet selbst an einer rein Sprachchatbasierten Lösung zur Kommunikation. Im regelmäßigem Austausch haben wir immer wieder Input bekommen. VoiceUP hat erkannt, dass Sprachnachrichten versenden ein gern genutzes Feature ist und es eine Lücke gibt beim Empfangen diser Nachrichten. Es gibt viele Möglichkeiten ihren Sprachchat an den Markt zu bringen. Während des Verlaufs des Projektes ist die Basis beim StartUp gleich geblieben der Focus und die Branche haben sich allerdings in der Zeit geändert. Daraus lässt sich vermuten, dass das Einsatzgebiet der Technologie sehr variable ist und die grundsätzlichen Herausforderungen in verschiedenen Gebieten sich stark ähneln.
+
 ###Ähnliche Projekte
 Relevante projekte, allgemein vllt was kann man heute schon SpeechToText machen.
 
