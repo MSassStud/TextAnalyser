@@ -91,8 +91,9 @@ Seit einigen Jahren sind Textchats als Nachvolger von SMS ein fester Bestandteil
 ####Projektpartner VoiceUP
 Während des Projektes hat uns ein StartUp aus Berlin begleitet. Es arbeitet selbst an einer rein Sprachchatbasierten Lösung zur Kommunikation. Im regelmäßigem Austausch haben wir immer wieder Input bekommen. VoiceUP hat erkannt, dass Sprachnachrichten versenden ein gern genutzes Feature ist und es eine Lücke gibt beim Empfangen diser Nachrichten. Es gibt viele Möglichkeiten ihren Sprachchat an den Markt zu bringen. Während des Verlaufs des Projektes ist die Basis beim StartUp gleich geblieben der Focus und die Branche haben sich allerdings in der Zeit geändert. Daraus lässt sich vermuten, dass das Einsatzgebiet der Technologie sehr variable ist und die grundsätzlichen Herausforderungen in verschiedenen Gebieten sich stark ähneln.
 
-###Ähnliche Projekte
-Relevante projekte, allgemein vllt was kann man heute schon SpeechToText machen.
+###Ähnliche Kontexte
+Die Nutzung von Sprachnachrichten oder Sprachkomandos sind keine Seltenheit. Im Bereich der Bedienung von Geräten z.B. im Umfeld des Smart Home werden Sprachkomandos in Text übersetzt und als eingabe zur Steuerung genutzt. Diktierfuntionen unterstützen beim aufschreiben von Texten und Notizen. Sie unterstützen in dem Sinne, dass man sein gesprochenes Wort nicht per Hand abtippen muss. Manche Plattformen bieten inzwischen automatisch generierte Untertietel an. Dabei wird ebenfalls Sprache zu Text umgewandelt und einem Punkt in der Zeitachse zugeordnet.
+Sowohl Google, als auch Amazon als bekannteste Vertreter haben inzwischen ihre Produkte zum Umwandeln der Sprache zu text am Markt plaziert. Über eine API kann jeder seine Sprache in Texte umwandeln lassen. Diese Umwandlungen werden mit tranierten KI-Modellen verwirklicht. Prnzipiel ist das Umwandeln in Text meist der erste Schritt um mit einer Sprachnachticht automatisiert weiter arbeiten zu können.
 
 ##Projektverlauf
 Wie ist es gastartet, was waren die ersten Ideen
