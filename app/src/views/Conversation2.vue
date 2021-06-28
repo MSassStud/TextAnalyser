@@ -2,9 +2,16 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+        <!-- <ion-buttons slot="start">
+          <ion-button @click="openLogin">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons> -->
         <ion-title>{{ partnersName }}</ion-title>
         <ion-buttons slot="end">
-          <ion-button @click="openTopics">MT</ion-button>
+          <ion-button @click="openTopics">
+            <ion-icon name="star-outline" class="inlineIcon"></ion-icon> Topics
+          </ion-button>
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -56,7 +63,7 @@ import {
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
-import { personCircle, personCircleOutline, mic, chatboxOutline, textOutline,
+import { personCircle, personCircleOutline, mic, chatboxOutline, textOutline, starOutline, arrowBackOutline
   // enterOutline
 } from 'ionicons/icons';
 import * as Api from '@/api.js';
@@ -67,6 +74,8 @@ addIcons({
   mic,
   'chatbox-outline': chatboxOutline,
   'text-outline': textOutline,
+  'star-outline': starOutline,
+  'arrow-back-outline': arrowBackOutline
   // 'enter-outline': enterOutline
 });
 
@@ -115,7 +124,7 @@ export default defineComponent({
       return 'width: 80%; margin-left: auto';
     },
     backgroundGif(message) {
-      return `height: 100px; width: 100%; margin: 0; padding: 0; background-image: url(${message.gifUrl}); background-size: contain; background-position: center`;
+      return `height: 100px; width: 100%; margin: 0; padding: 0; background-image: url(${message.gifUrl}); background-size: contain; background-position: center; background-repeat: no-repeat`;
     },
     messageLabel(message) {
       const from = this.ownName == message.from ? 'You' : message.from;
@@ -128,6 +137,10 @@ export default defineComponent({
       Api.getConversation2(this.ownName, this.partnersName)
         .then(response => response.json())
         .then(messages => this.messages = messages);
+    },
+    openLogin() {
+      this.$store.commit('reset');
+      this.$router.push('/');
     },
     openMessage(message) {
       // this.$store.commit('setOpenMessage', message);
@@ -162,5 +175,9 @@ export default defineComponent({
 
 ion-item {
     --min-height: 200px;
+}
+
+.inlineIcon {
+  margin-right: 0.3em;
 }
 </style>

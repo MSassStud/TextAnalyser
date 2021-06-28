@@ -1,13 +1,17 @@
-import { server } from '@/config.js'
+import { getServer } from '@/config.js'
 
-const host = server();
+// const host = getServer();
+
+function host() {
+    return getServer();
+}
 
 /**
  * @param {string} id a UUID
  * @param {string} username
  */
 async function getMessage(id, username) {
-    return fetch(`http://${host}/messages/${id}?user=${username}`);
+    return fetch(`http://${host()}/messages/${id}?user=${username}`);
 }
 
 /**
@@ -15,7 +19,7 @@ async function getMessage(id, username) {
  * @param {string} partnersName 
  */
 async function getConversation(username, partnersName) {
-    return fetch(`http://${host}/conversations?a=${username}&b=${partnersName}`);
+    return fetch(`http://${host()}/conversations?a=${username}&b=${partnersName}`);
 }
 
 /**
@@ -23,7 +27,7 @@ async function getConversation(username, partnersName) {
  * @param {string} partnersName 
  */
  async function getConversation2(username, partnersName) {
-    return fetch(`http://${host}/conversations2?a=${username}&b=${partnersName}`);
+    return fetch(`http://${host()}/conversations2?a=${username}&b=${partnersName}`);
 }
 
 /**
@@ -31,7 +35,7 @@ async function getConversation(username, partnersName) {
  * @param {string} id a UUID
  */
 async function getTopic(username, id) {
-    return fetch(`http://${host}/users/${username}/topics/${id}`);
+    return fetch(`http://${host()}/users/${username}/topics/${id}`);
 }
 
 /**
@@ -40,7 +44,7 @@ async function getTopic(username, id) {
  */
  async function saveTopic(username, topic) {
     if (topic.id) {
-        return fetch(`http://${host}/users/${username}/topics/${topic.id}`, {
+        return fetch(`http://${host()}/users/${username}/topics/${topic.id}`, {
             method: 'PUT',
             mode: 'cors',
             headers: {
@@ -50,7 +54,7 @@ async function getTopic(username, id) {
         });
     }
 
-    return fetch(`http://${host}/users/${username}/topics`, {
+    return fetch(`http://${host()}/users/${username}/topics`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -63,7 +67,7 @@ async function getTopic(username, id) {
  * @param {string} username 
  */
 async function getTopics(username) {
-    return fetch(`http://${host}/users/${username}/topics`);
+    return fetch(`http://${host()}/users/${username}/topics`);
 }
 
 export {

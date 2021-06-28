@@ -50,7 +50,7 @@ import {
 import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
 import { personCircle, personCircleOutline, mic, chatboxOutline, textOutline } from 'ionicons/icons';
-import { server } from '../config.js';
+import { getServer } from '../config.js';
 
 addIcons({ "person-circle": personCircle, "person-circle-outline": personCircleOutline, mic, 'chatbox-outline': chatboxOutline, 'text-outline': textOutline });
 
@@ -95,7 +95,7 @@ export default defineComponent({
       return this.ownName == message.from ? 'person-circle' : 'person-circle-outline';
     },
     loadMessages() {
-      fetch('http://' + server() + '/conversations?a=' + this.ownName + '&b=' + this.partnersName)
+      fetch('http://' + getServer() + '/conversations?a=' + this.ownName + '&b=' + this.partnersName)
         .then(response => response.json())
         .then(data => this.messages = data)
         .catch(error => this.error = error);

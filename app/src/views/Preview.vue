@@ -77,7 +77,7 @@ import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
 import { checkmarkOutline, closeOutline, scanOutline, playOutline, pauseOutline, stopOutline } from 'ionicons/icons';
 import EmojiSelection from "./EmojiSelection.vue";
-import { server } from '../config.js';
+import { getServer } from '../config.js';
 
 addIcons({
   'checkmark-outline': checkmarkOutline,
@@ -191,7 +191,7 @@ export default defineComponent({
       return modal.present();
     },
     send() {
-      fetch('http://' + server() + '/messages', {
+      fetch('http://' + getServer() + '/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -268,7 +268,7 @@ export default defineComponent({
     }
   },
   ionViewDidEnter() {
-    fetch('http://' + server() + '/preview', {
+    fetch('http://' + getServer() + '/preview', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

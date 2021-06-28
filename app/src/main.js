@@ -57,6 +57,14 @@ const store = createStore({
     },
     setOpenMessage2(state, message) {
       state.openMessage2 = message;
+    },
+    reset(state) {
+      state.ownName = '';
+      state.partnersName = '';
+      state.message = null;
+      state.selectedEmoji = null;
+      state.openMessage = null;
+      state.openMessage2 = null;
     }
   }
 })

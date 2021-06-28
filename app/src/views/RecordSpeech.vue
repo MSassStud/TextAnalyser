@@ -48,7 +48,7 @@ import { defineComponent } from "vue";
 import { addIcons } from 'ionicons';
 import { micOutline, stop } from 'ionicons/icons';
 import { SpeechRecognition } from '@ionic-native/speech-recognition';
-import { server } from '../config.js';
+import { getServer } from '../config.js';
 
 addIcons({ 'mic-outline': micOutline, stop });
 
@@ -110,7 +110,7 @@ export default defineComponent({
               const base64Audio = reader.result.split(',')[1];
               console.log(base64Audio);
 
-              fetch('http://' + server() + '/recording', {
+              fetch('http://' + getServer() + '/recording', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

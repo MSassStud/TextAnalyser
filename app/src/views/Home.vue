@@ -12,6 +12,10 @@
               <ion-label position="stacked" class="upper">Partner's name</ion-label>
               <ion-input v-model="partnersName"></ion-input>
             </ion-item>
+            <ion-item>
+              <ion-label position="stacked" class="upper">Server</ion-label>
+              <ion-input v-model="server"></ion-input>
+            </ion-item>
           </ion-col>
           <ion-col size="12">
             <ion-button expand="block" :disabled="anyNameEmpty" @click="startConversation">Start conversation</ion-button>
@@ -28,6 +32,7 @@ import { IonContent, IonPage, IonInput, IonLabel, IonButton, IonGrid, IonRow, Io
 IonItem
 } from "@ionic/vue";
 import { defineComponent } from "vue";
+import { getServer, setServer } from '@/config.js';
 
 export default defineComponent({
   name: "Home",
@@ -46,6 +51,7 @@ export default defineComponent({
     return {
       ownName: '',
       partnersName: '',
+      server: getServer()
     };
   },
   computed: {
@@ -61,6 +67,9 @@ export default defineComponent({
         own: this.ownName,
         partner: this.partnersName
       });
+
+      setServer(this.server);
+
       this.$router.push('/conversation2');
     }
   }
