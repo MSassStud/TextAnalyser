@@ -99,7 +99,8 @@ Sowohl Google, als auch Amazon als bekannteste Vertreter haben inzwischen ihre P
 Zu begin sammelten wir in welchen Bereichen man die Analyse von Sprache in Bezug auf Sprachnachrichten verwenden könnte. Wir identifizierten mehrere Bereiche für die man Prototypen erstellen könnte um den Anwerdern eines Sprachtchats ein besseres Anwendererlebnis zu generieren. Die größten Potentiale fanden wir in den Bereichen Markierungen, Unterhaltung und Struktur. Im November starteten wir direkt mit einem wöchentlichem Austausch mit den Verantwortlichen von Feinfone in dem es darum ging den Fortschritt des Projektes zu besprechen und Ideen miteinander auszutauschen. Im ständigen Austausch erhielten wir Einblicke von unserem Projektpartner und konnten unsere Ideen mit ihrer Marktkompetenz validieren. Da unser Projekt über 2 Fachsemeter verlief hatten wir mit Ende des ersten Semesters die Hauptsächliche Exploration der Themen abgeschlossen und begannen im zweitem Semester einen Prototypen zu erstellen.
 
 ###Exploration
-Unsere Exproration fand größten Teils in der ersten Projekthälte statt. 
+Unsere Exproration fand größten Teils in der ersten Projekthälfte statt. Da die Grundidee des Projektes auf Analyse der Stimmung eines Textes beruhte, setzten wir als erstes mit der Sentimentanalyse auseinader. In der Sentimentanalyse werden Wörter den Werten positiv, neutral oder negativ zugeordnet. Anhand dieser Zuordnung und der Häufigkeit der verwendeten Wörter eines Wertes, wird ermittelt wie die Haltung des Senders eines Textes ist. Auf einer 5 Werte Skala von sehr positiv bis sehr negativ wird der Sentiment einer Nachricht eingeordnet. Diese Analyse findet ihre Anwendung häufig in kombination mit maschinellem Lernen.
+Ein weiterer großer Anteil unserer Exploration war das Zuordnen von GIFs und Emojis zu einem Text. Wir versprachen uns davon dem Empfänger einen groben 
 
 ###Themenfindung
 Welche bereiche wurden nun weiter ins auge gefasst
