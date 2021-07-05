@@ -88,19 +88,22 @@ Sprachnachrichten sind zum Versenden sehr einfach und praktikabel. Um schnell ei
 ###Umfeld / Einordnung
 Seit einigen Jahren sind Textchats als Nachvolger von SMS ein fester Bestandteil im Alltag vieler Menschen. Als alternative eines synchronen Telefonats sind Sprachnachrichten inzwischen in vielen Chats integriert. Am Markt gibt es diverse Chatprogramme und fast jeder mit einem Smartphone setzt auf mindestens eines der Programme. Die prominentesten Softwarelösungen sind WhatsApp, Facebook Messanger, WeChat, QQ, Telegram und Snapchat. [ https://www.messengerpeople.com/de/weltweite-nutzer-statistik-fuer-whatsapp-wechat-und-andere-messenger/ ]. Bis auf die Grundfunktionalitäten einer Sprachnachricht bieten sie keine Komfortfunktionen beim Empfangen dieser Art von Nachrichten an. 
 
-####Projektpartner VoiceUP
-Während des Projektes hat uns ein StartUp aus Berlin begleitet. Es arbeitet selbst an einer rein Sprachchatbasierten Lösung zur Kommunikation. Im regelmäßigem Austausch haben wir immer wieder Input bekommen. VoiceUP hat erkannt, dass Sprachnachrichten versenden ein gern genutzes Feature ist und es eine Lücke gibt beim Empfangen diser Nachrichten. Es gibt viele Möglichkeiten ihren Sprachchat an den Markt zu bringen. Während des Verlaufs des Projektes ist die Basis beim StartUp gleich geblieben der Focus und die Branche haben sich allerdings in der Zeit geändert. Daraus lässt sich vermuten, dass das Einsatzgebiet der Technologie sehr variable ist und die grundsätzlichen Herausforderungen in verschiedenen Gebieten sich stark ähneln.
+####Projektpartner Feinfone GmbH
+Während des Projektes hat uns ein StartUp aus Berlin begleitet. Es arbeitet selbst an einer rein Sprachchatbasierten Lösung zur Kommunikation. Im regelmäßigem Austausch haben wir immer wieder Input bekommen. Feinfone hat erkannt, dass Sprachnachrichten versenden ein gern genutzes Feature ist und es eine Lücke gibt beim Empfangen diser Nachrichten. Es gibt viele Möglichkeiten ihren Sprachchat an den Markt zu bringen. Während des Verlaufs des Projektes ist die Basis beim StartUp gleich geblieben der Focus und die Branche haben sich allerdings in der Zeit geändert. Daraus lässt sich vermuten, dass das Einsatzgebiet der Technologie sehr variable ist und die grundsätzlichen Herausforderungen in verschiedenen Gebieten sich stark ähneln.
 
 ###Ähnliche Kontexte
 Die Nutzung von Sprachnachrichten oder Sprachkomandos sind keine Seltenheit. Im Bereich der Bedienung von Geräten z.B. im Umfeld des Smart Home werden Sprachkomandos in Text übersetzt und als eingabe zur Steuerung genutzt. Diktierfuntionen unterstützen beim aufschreiben von Texten und Notizen. Sie unterstützen in dem Sinne, dass man sein gesprochenes Wort nicht per Hand abtippen muss. Manche Plattformen bieten inzwischen automatisch generierte Untertietel an. Dabei wird ebenfalls Sprache zu Text umgewandelt und einem Punkt in der Zeitachse zugeordnet.
 Sowohl Google, als auch Amazon als bekannteste Vertreter haben inzwischen ihre Produkte zum Umwandeln der Sprache zu text am Markt plaziert. Über eine API kann jeder seine Sprache in Texte umwandeln lassen. Diese Umwandlungen werden mit tranierten KI-Modellen verwirklicht. Prnzipiel ist das Umwandeln in Text meist der erste Schritt um mit einer Sprachnachticht automatisiert weiter arbeiten zu können.
 
 ##Projektverlauf
-Wie ist es gastartet, was waren die ersten Ideen
+Zu begin sammelten wir in welchen Bereichen man die Analyse von Sprache in Bezug auf Sprachnachrichten verwenden könnte. Wir identifizierten mehrere Bereiche für die man Prototypen erstellen könnte um den Anwerdern eines Sprachtchats ein besseres Anwendererlebnis zu generieren. Die größten Potentiale fanden wir in den Bereichen Markierungen, Unterhaltung und Struktur. Im November starteten wir direkt mit einem wöchentlichem Austausch mit den Verantwortlichen von Feinfone in dem es darum ging den Fortschritt des Projektes zu besprechen und Ideen miteinander auszutauschen. Im ständigen Austausch erhielten wir Einblicke von unserem Projektpartner und konnten unsere Ideen mit ihrer Marktkompetenz validieren. Da unser Projekt über 2 Fachsemeter verlief hatten wir mit Ende des ersten Semesters die Hauptsächliche Exploration der Themen abgeschlossen und begannen im zweitem Semester einen Prototypen zu erstellen.
+
 ###Exploration
-In welche richtungen wurde insgesamt gedacht wo hat man potentiale gesehen, wo wurde man hingeschaut und kurz durchdacht.
+Unsere Exproration fand größten Teils in der ersten Projekthälte statt. 
+
 ###Themenfindung
 Welche bereiche wurden nun weiter ins auge gefasst
+
 ###Entwicklug
 Wie hat man sich den Themenbereichen genähert, was hat man produziert
 ###Tests
