@@ -119,21 +119,18 @@ Was kann das Produkt nun? Was kann man erahnen?
 Wie genau sollte man die App / Api benutzen 
 ###Techstack
 Wie ist die Technik aufgebaut, womit wurde gearbeitet, was muss man haben um das auszuprobieren
-###Ergebnisse für VoiceUP
+###Ergebnisse für Feinfone
 
 ##Ausblick / Weiterführende Ideen
 in welchen bereichen könnte man warum weiter probieren, Kommentare aus den Interviews mit rein nehmen.
 Welche Themen sind zu wenig beleuchtet worden, Wo kann es einen Wert für die Gesellschaft bieten, evtl. arbeit erleichtern.
 Gibt es bestimmte gruppen die besonders davon provitieren könnten
 
-
 ##Literaturverzeichnis
 
 ##Abbildungsverzeichnis
 
 ##Tabellenverzeichnis
-
-##Eidesstattliche Erklärung
 
 ##Anhang
 
