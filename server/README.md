@@ -111,7 +111,7 @@ Im Bereich der Struktur hatten wir Überlegungen angestellt die hauptsächlich d
 In den Bereichen Services, Pain Points, Search und Different Media hatten wir keine Nennenswerten vorstöße gemacht. 
 
 ###Themenfindung
-Welche bereiche wurden nun weiter ins auge gefasst
+Es zeichnete sich schon während der Exploration ab, dass wir uns im Bereich Unterhaltung und Markierung für den Empfänger weiter vertiefen wollten. Die Schwierigkeit aus einer Sprachnachricht automatisch Informationen zu extrahieren und diese mit optisch ansprechenden Informationen anzureichern fanden wir als besonders spannen. Auch in den wöchentlichen Austauschrunden fand dieses Thema den meisten anklang. Das Ziel war nun einen Prototypen zu entwickeln der zu einer Sprachnachricht einen Unterhaltungswert liefert. 
 
 ###Entwicklug
 Wie hat man sich den Themenbereichen genähert, was hat man produziert
