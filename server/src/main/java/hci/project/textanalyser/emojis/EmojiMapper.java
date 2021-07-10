@@ -1,30 +1,27 @@
-package hci.project.textanalyser.noun;
+package hci.project.textanalyser.emojis;
 
 import static java.util.stream.Collectors.joining;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.xml.stream.XMLStreamException;
+import hci.project.textanalyser.noun.Noun;
 
-import com.google.common.collect.Multimap;
-
-public class EmojiMapper {
+class EmojiMapper {
     
-    private final Multimap<String, String> index;
+    private final EmojiIndex index;
 
-    public EmojiMapper(Multimap<String, String> index) {
+    public EmojiMapper(EmojiIndex index) {
         this.index = index;
     }
     
-    public List<MappedEmoji> map(String text) throws XMLStreamException, IOException {
-        NounExtractor extractor = NounExtractor.forCasedSentences();
-        List<Noun> nouns = extractor.extract(text);
-        
-        return emojis(nouns);
-    }
+//    public List<MappedEmoji> map(String text) throws XMLStreamException, IOException {
+//        NounExtractor extractor = NounExtractor.forCasedSentences();
+//        List<Noun> nouns = extractor.extract(text);
+//        
+//        return emojis(nouns);
+//    }
     
     public List<MappedEmoji> emojis(List<Noun> nouns) {
         List<MappedEmoji> mappedEmojis = new ArrayList<>();
@@ -34,7 +31,7 @@ public class EmojiMapper {
             } else {
                 String emojis = noun.words().stream()
                     .map(word -> {
-                        Collection<String> lookup = index.get(word);
+                        Collection<String> lookup = index.getEmojis(word);
                         if (!lookup.isEmpty())
                             return lookup.iterator().next();
                         return "";

@@ -1,8 +1,9 @@
-package hci.project.textanalyser.noun;
+package hci.project.textanalyser.gif;
 
 import java.util.List;
 
 import at.mukprojects.giphy4j.entity.search.SearchGiphy;
+import hci.project.textanalyser.noun.Noun;
 
 public class MockImageApi implements INounToGif<List<Noun>> {
 

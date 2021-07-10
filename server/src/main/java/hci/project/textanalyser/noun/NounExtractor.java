@@ -15,7 +15,7 @@ import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.CoreSentence;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 
-public class NounExtractor {
+class NounExtractor {
 
     private final StanfordCoreNLP pipeline;
     

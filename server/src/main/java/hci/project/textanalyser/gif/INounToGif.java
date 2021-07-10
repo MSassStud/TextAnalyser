@@ -1,8 +1,6 @@
-package hci.project.textanalyser.noun;
+package hci.project.textanalyser.gif;
 
 import at.mukprojects.giphy4j.entity.search.SearchGiphy;
-
-import java.util.List;
 
 public interface INounToGif<C> {
     SearchGiphy findBy(C nouns);

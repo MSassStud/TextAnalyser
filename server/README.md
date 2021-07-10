@@ -115,6 +115,52 @@ Es zeichnete sich schon während der Exploration ab, dass wir uns im Bereich Unt
 
 ###Entwicklug
 Wie hat man sich den Themenbereichen genähert, was hat man produziert
+
+Rahmenbedingungen
+- Endnutzer kommunizieren über eine Smartphone-App
+- Kommunikation findet zwischen jeweils zwei Nutzern statt (keine Gruppen)
+- Unabhängige Entwicklung, d.h. keine Nutzung von exisitierenden Systemen von Feinfone
+- Englische Sprache
+
+- Ein Nutzer muss identifizierbar sein, um ihm gezielt Nachrichten senden zu können.
+
+Architektur
+chat app --> server [Benutzerverwaltung, Nachrichtenverlauf, Nachrichtenverarbeitung]
+
+Benutzerverwaltung
+Wahl eines Namens, zur Zuordnung von Nachrichten zum Sender
+Speicherung von Konfiguration zu einem Nutzer (nur Topics)
+Registrierung, Authentifizierung usw. sind für den Prototypen nicht notwendig.
+
+Nachrichtenverlauf
+Chats funktionieren in der Regel asynchron.
+Ein Benutzer kann einem anderen Nachrichten senden, auch wenn dieser gerade nicht erreichbar ist.
+Der Nachrichtenverlauf zwischen zwei Benutzern wird als fortlaufende Unterhaltung verwaltet.
+Die Zuordnung von Sender und Empfänger erfolgt über die Namen der Teilnehmer.
+
+Nachrichtenverarbeitung
+Nachrichten werden auf ihrem Inhalt basierend mit weiteren Informationen angereichert.
+
+text --> analyser a -----------------> }
+     |               |                 } result
+     |-> analyser b --> analyser c --> }
+
+Substantive
+Artikel direkt vor dem Substantiv => nicht immer der Fall.
+Groß- und Kleinschreibung => im Englischen und bei transkibierten Texten nicht gegeben.
+Entscheidung an konkretem Wort => es gibt Wörter, die je nach Kontext Substantiv, Adjektiv oder Verb sein können
+Der folgende Satz verdeutlicht das Problem:
+A ripe orange is orange.
+Der Artikel steht vor dem Adjektiv, Groß- und Kleinschreibung bietet keine Orientierung und das Wort "orange" kommt sowohl als Adjektiv als auch als Subjektiv vor.
+Die inhaltliche Interpretation von Text ist nicht trivial und Gegenstand der Forschung.
+Im Prototypen greifen wir daher für die Klassifizierung auf eine Bibliothek aus dem Bereich des Natural Language Processing zurück.
+Das Ergebnis der Klassifizierung beinhaltet normale Subjektiv, erkannte Eigennamen (Personen, Organisationen) und aufgelöste indirekte Nennungen (Pronomen).
+Es enthält das Subjektiv und die ursprüngliche Textstelle.
+
+Emojis
+
+Erwähnte Themen / Mentioned Topics
+
 ###Tests
 Welcher Stand wurde Probanden gezeigt und was haben sie dazu gesagt
 ###Zwischenergebnisse

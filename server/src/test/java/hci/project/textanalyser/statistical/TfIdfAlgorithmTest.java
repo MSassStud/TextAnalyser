@@ -8,9 +8,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import hci.project.textanalyser.statistical.DocumentCollection;
-import hci.project.textanalyser.statistical.TfIdfAlgorithm;
-
 class TfIdfAlgorithmTest {
 
     @Test

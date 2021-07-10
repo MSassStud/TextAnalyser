@@ -1,4 +1,4 @@
-package hci.project.textanalyser.noun;
+package hci.project.textanalyser.emojis;
 
 import java.util.List;
 

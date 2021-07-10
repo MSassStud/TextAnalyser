@@ -1,4 +1,4 @@
-package hci.project.textanalyser.noun;
+package hci.project.textanalyser.emojis;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +12,7 @@ import javax.xml.stream.XMLStreamReader;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder.SetMultimapBuilder;
 
-public class EmojiParser {
+class EmojiParser {
 
     public Multimap<String, String> createKeywordIndex(InputStream inputStream) throws XMLStreamException, IOException {
         XMLInputFactory inputFactory = XMLInputFactory.newFactory();

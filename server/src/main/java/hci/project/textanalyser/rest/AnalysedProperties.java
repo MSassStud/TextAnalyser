@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import hci.project.textanalyser.noun.MappedEmoji;
 import at.mukprojects.giphy4j.entity.search.SearchGiphy;
+import hci.project.textanalyser.emojis.MappedEmoji;
 import hci.project.textanalyser.sentiment.Sentiment;
 import hci.project.textanalyser.statistical.Keyword;
 import hci.project.textanalyser.topic.TopicInfo;

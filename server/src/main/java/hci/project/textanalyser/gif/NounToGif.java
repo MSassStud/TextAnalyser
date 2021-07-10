@@ -1,4 +1,4 @@
-package hci.project.textanalyser.noun;
+package hci.project.textanalyser.gif;
 
 import java.util.Comparator;
 import java.util.List;
@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import at.mukprojects.giphy4j.Giphy;
 import at.mukprojects.giphy4j.entity.search.SearchGiphy;
 import at.mukprojects.giphy4j.exception.GiphyException;
+import hci.project.textanalyser.noun.Noun;
 
 public class NounToGif implements INounToGif<List<Noun>> {
     private static final String API_KEY = "57X4b5DJFDgFCPvXdjEiM59BpwVlOH8Z";

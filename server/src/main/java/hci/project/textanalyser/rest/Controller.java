@@ -36,14 +36,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.Multimap;
 
 import at.mukprojects.giphy4j.entity.search.SearchGiphy;
-import hci.project.textanalyser.noun.EmojiMapper;
-import hci.project.textanalyser.noun.INounToGif;
-import hci.project.textanalyser.noun.MappedEmoji;
+import hci.project.textanalyser.emojis.EmojiSuggestionAnalyzer;
+import hci.project.textanalyser.emojis.MappedEmoji;
+import hci.project.textanalyser.gif.INounToGif;
 import hci.project.textanalyser.noun.Noun;
-import hci.project.textanalyser.noun.NounExtractor;
+import hci.project.textanalyser.noun.NounAnalyzer;
 import hci.project.textanalyser.sentiment.Sentiment;
 import hci.project.textanalyser.sentiment.SentimentAnalyzer;
 import hci.project.textanalyser.statistical.RatingKeywordExtractor;
@@ -57,16 +56,18 @@ public class Controller {
 
     private static Logger LOGGER = LoggerFactory.getLogger(Controller.class);
     
-    private final Multimap<String, String> index;
     private final Map<String, Topic> topics = new HashMap<>();
     private final INounToGif<List<Noun>> nounToGif;
     private final Map<Conversation, List<Message>> conversations = new HashMap<>();
     private final Map<String, Message> messages = new HashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final Map<String, Map<String, Topic>> userTopics = new HashMap<>();
+    private final NounAnalyzer nounAnalyzer;
+    private final EmojiSuggestionAnalyzer emojiSuggestionAnalyzer;
     
-    public Controller(Multimap<String, String> index, INounToGif<List<Noun>> nounToGif) {
-        this.index = index;
+    public Controller(NounAnalyzer nounAnalyzer, EmojiSuggestionAnalyzer emojiSuggestionAnalyzer, INounToGif<List<Noun>> nounToGif) {
+        this.nounAnalyzer = nounAnalyzer;
+        this.emojiSuggestionAnalyzer = emojiSuggestionAnalyzer;
         this.nounToGif = nounToGif;
     }
     
@@ -155,11 +156,9 @@ public class Controller {
     @PostMapping("/messages")
     public ResponseEntity<?> sendMessage(@RequestBody String bdy) throws JsonMappingException, JsonProcessingException {
         Map<String, Object> body = objectMapper.readValue(bdy, new TypeReference<Map<String, Object>>() {});
-//        Map<String, String> data = objectMapper.readValue(content.get("data"), new TypeReference<Map<String, String>>() {});
         String from = (String) body.get("from");
         String to = (String) body.get("to");
         Map<String, Object> data = (Map<String, Object>) body.get("data");
-        List<Object> emojis = (List<Object>) data.get("emojis");
         
         var conversation = new Conversation(from, to);
         var message = new Message(UUID.randomUUID().toString(), LocalDateTime.now(), from, to, (String) body.get("message"), this.textToEmojis((String) body.get("message")), data);
@@ -263,8 +262,7 @@ public class Controller {
     }
     
     private List<Noun> extractNouns(String text) {
-        NounExtractor nounExtractor = NounExtractor.forCaselessSentences();
-        List<Noun> nouns = nounExtractor.extract(text);
+        List<Noun> nouns = nounAnalyzer.analyze(text);
         
         logNouns(nouns);
         return nouns;
@@ -282,8 +280,7 @@ public class Controller {
     }
 
     private List<MappedEmoji> getEmojis(List<Noun> nouns) {
-        EmojiMapper emojiMapper = new EmojiMapper(index);
-        return emojiMapper.emojis(nouns);
+        return emojiSuggestionAnalyzer.analyze(nouns);
     }
 
     private SearchGiphy getGif(List<Noun> nouns) {
