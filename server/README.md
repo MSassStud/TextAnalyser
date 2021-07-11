@@ -157,9 +157,50 @@ Im Prototypen greifen wir daher für die Klassifizierung auf eine Bibliothek aus
 Das Ergebnis der Klassifizierung beinhaltet normale Subjektiv, erkannte Eigennamen (Personen, Organisationen) und aufgelöste indirekte Nennungen (Pronomen).
 Es enthält das Subjektiv und die ursprüngliche Textstelle.
 
+Tokenization				regelbasiert	Teilt einen Text in einzelne Tokens auf.
+Sentence Splitting			regelbasiert	Teilt einen Text in einzelne Sätze auf.
+True Case					modelbasiert	Ermittelt die in Bezug auf Groß- und Kleinschreibung korrekte Schreibweise eines Tokens.
+Parts of Speech				modelbasiert	Ordnet Tokens Label wie Subjektiv oder Verb zu.
+Lemmatization				regelbasiert	Ermittelt die Grundform (das Lemma) eines Wortes.
+Named Entity Recognition	model- und regelbasiert		Erkennt Eigennamen von Personen und Organisationen.
+Constituency Parsing		modelbasiert	Identifiziert die syntaktischen Bestandteile eines Satzes.
+Coreference Resolution		regel- oder modelbasiert	Identifiziert Bezüge im Text, z.B. von einem Pronomen auf ein Subjektiv.
+* modelbasiert = statistische Modelle (zum Teil per machine-learning trainiert) oder neuronale Netze
+https://stanfordnlp.github.io/CoreNLP/annotators.html
+
+https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
+https://repository.upenn.edu/cis_reports/570/
+pseudocode
+function findNouns(text) {
+	var labelledTokens = label(text)
+	var nouns = { labelledToken | posTag(labelledToken) in {NN, NNP, NNS, NNPS}}
+	var persons = { labelledToken | nerTag(labelledToken) = PERSON}
+	var corefs = corefChains(text)
+	for (var chain in corefs) {
+		var noun = representativeNoun(chain)
+		for (var mention in chain) {
+			var labelledMention = labelTokenAsNoun(mention.token, noun)
+			nouns.add(labelledMention)
+		}
+	}
+	return union(nouns, persons)
+}
+
 Emojis
+baut auf den Substantiven auf
+Keywords aus Unicode-Standard
+http://unicode.org/Public/cldr/38.1/
+https://unicode.org/reports/tr35/tr35-general.html#Annotations
+Aufbau des Keyword-Index
+Emoji aus cp, aufgeteilte Keywords aus Elementtext
+für jedes Wort im Text wird im Index gesucht und der erste Treffer gewählt
+ist das Wort als Person markiert, wird immer person neutral gender gewählt
 
 Erwähnte Themen / Mentioned Topics
+Tokenizer
+Beispiel für Anreicherung der Nachricht
+
+// WEITER AUF DRIVE
 
 ###User Tests
 Wir erstellten einen Klickprototypen mit der Software Figma. Dieser Prototyp diente der Visualisierung einer Mobile-App. Es gab 2 abgebildete Wrkflows. Der erste war das Versenden einer Nachricht und der zweite die Verwaltung von eigenen Kategorien für Emojis. Zum einen diente der Dummy zum als Diskussionsgrundlage zum anderen namen wir diesen um einen kurzen Test mit durchzuführen. Die Probanden waren zwischen 25 und 45 Jahre alt, männlich und nutzen mindestens eine App mit der man Sprachnachrichten versenden kann. In der frühen Phase unserer Entwicklung ließen wir die Usability eher in den Hintergrund rücken und sprachen mehr über die Funktionalitäten. Eine Frage war, ob der Proband sich vorstellen könnte die integrierten Funktionalitäten einzusetzen. Dies beantworteten die Probanden alle mit "Ja". Eine verwirrung gab es, da die Probanden sich nicht vorstellen konnten warum sie ein Wordcloud versenden sollten. Am meistern waren die Probanden von den GIFs überzeugt. Ein Proband sprach darüber, dass er die Voice2Text Funktion gerne hätte um einzelne GIFs zu versenden per Sprachkomando, da er in vielen Chatsverläufen sich zum Teil per GIF unterhält.
