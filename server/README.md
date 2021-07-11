@@ -164,11 +164,9 @@ Erwähnte Themen / Mentioned Topics
 ###User Tests
 Wir erstellten einen Klickprototypen mit der Software Figma. Dieser Prototyp diente der Visualisierung einer Mobile-App. Es gab 2 abgebildete Wrkflows. Der erste war das Versenden einer Nachricht und der zweite die Verwaltung von eigenen Kategorien für Emojis. Zum einen diente der Dummy zum als Diskussionsgrundlage zum anderen namen wir diesen um einen kurzen Test mit durchzuführen. Die Probanden waren zwischen 25 und 45 Jahre alt, männlich und nutzen mindestens eine App mit der man Sprachnachrichten versenden kann. In der frühen Phase unserer Entwicklung ließen wir die Usability eher in den Hintergrund rücken und sprachen mehr über die Funktionalitäten. Eine Frage war, ob der Proband sich vorstellen könnte die integrierten Funktionalitäten einzusetzen. Dies beantworteten die Probanden alle mit "Ja". Eine verwirrung gab es, da die Probanden sich nicht vorstellen konnten warum sie ein Wordcloud versenden sollten. Am meistern waren die Probanden von den GIFs überzeugt. Ein Proband sprach darüber, dass er die Voice2Text Funktion gerne hätte um einzelne GIFs zu versenden per Sprachkomando, da er in vielen Chatsverläufen sich zum Teil per GIF unterhält.
 
-###Zwischenergebnisse
-Welche wichtigen Iterationen gab es. Erste Techideen, Klickdummy
-
 ##Ergebnisse
-Was kam grob am ende raus,
+Mit unserem Prototypen haben wir eine Lauffähige App entwickelt inkl. eines Backends. Damit ist der erste Schritt getan um weitere Funktionen zu evaluieren und um den Umfang zu erweitern. Zudem haben wir einen Stand erreicht an dem man mit Usern den Prototypen testen lassen könnte um weitere Ideen zu generieren. Die größte Hürde stellt das Voice2Text dar. Ohne ein KI Modell, welches sehr genau live transkibieren kann, wären die Funktionen eher lästig als hilfreich. Auch die Analyse der Stimmung des Senders ist eine größere Baustelle. Das verwendete Modell aus der Stanford-Lib ist nur auf englisch einsetzbar und nicht ausgereift. Prinzipiell hat sich herausgestellt, dass man viele Möglichkeiten hat sobald man die Sprache alt Text vorliegen hat, der Weg dahin aber ohne Drittanbieter derzeit nicht ohne weiteres machbar ist. Der Umfang an zusätzlich generierten Daten zu einer Sprachnachricht ist jedenfalls im Moment in gängigen Applikationen sehr überschaubar. 
+
 ###Prototyp
 Was kann das Produkt nun? Was kann man erahnen? 
 ###Workflows
@@ -178,6 +176,8 @@ Wie ist die Technik aufgebaut, womit wurde gearbeitet, was muss man haben um das
 ###Ergebnisse für Feinfone
 
 ##Ausblick / Weiterführende Ideen
+
+
 in welchen bereichen könnte man warum weiter probieren, Kommentare aus den Interviews mit rein nehmen.
 Welche Themen sind zu wenig beleuchtet worden, Wo kann es einen Wert für die Gesellschaft bieten, evtl. arbeit erleichtern.
 Gibt es bestimmte gruppen die besonders davon provitieren könnten
